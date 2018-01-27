@@ -1,0 +1,59 @@
+01,Broadmeadows,VIC,-37.69,144.95
+02,Melbourne,VIC,-37.86,144.76
+03,Wollongong,NSW,-34.264,150.874
+04,Newcastle,NSW,-32.730,152.027
+05,Carnarvon,WA,-24.88,113.67
+06,Geraldton,WA,-28.80,114.70
+07,Wyndham,WA,-15.45,128.12
+08,Gympie,QLD,-25.957,152.577
+09,Gove,NT,-12.28,136.82
+14,Mt Gambier,SA,-37.75,140.77
+15,Dampier,WA,-20.65,116.69
+16,Port Hedland,WA,-20.37,118.63
+17,Broome,WA,-17.95,122.23
+19,Cairns,QLD,-16.82,145.68
+22,Mackay,QLD,-21.12,149.22
+23,Gladstone,QLD,-23.86,151.26
+24,Bowen,QLD,-19.88,148.08
+25,Alice Springs,NT,-23.82,133.90
+27,Woomera,SA,-31.16,136.80
+28,Grafton,NSW,-29.62,152.97
+29,Learmonth,WA,-22.10,114.00
+30,Mildura,VIC,-34.23,142.08
+31,Albany,WA,-34.94,117.80
+32,Esperance,WA,-33.83,121.89
+33,Ceduna,SA,-32.13,133.70
+36,Gulf of Carpentaria,QLD,-16.67,139.17
+37,Hobart Airport,TAS,-42.83,147.51
+38,Newdegate,WA,-33.097,119.009
+39,Halls Creek,WA,-18.23,127.66
+40,Canberra,ACT,-35.66,149.51
+41,Willis,QLD,-16.288,149.965
+42,Katherine,NT,-14.51,132.45
+44,Giles,WA,-25.03,128.30
+46,Sellicks Hill,SA,-35.33,138.50
+48,Kalgoorlie,WA,-30.79,121.45
+49,Yarrawonga,VIC,-36.03,146.03
+50,Brisbane,QLD,-27.61,152.54
+51,Melbourne Airport,VIC,-37.67,144.83
+52,N.W.Tasmania,TAS,-41.181,145.579
+53,Moree,NSW,-29.50,149.85
+55,Wagga Wagga,NSW,-35.17,147.47
+56,Longreach,QLD,-23.43,144.29
+58,South Doodlakine,WA,-31.78,117.95
+62,Norfolk Island,NSW,-29.033,167.933
+63,Darwin(Berrimah),NT,-12.46,130.93
+64,Buckland Park,SA,-34.617,138.469
+66,Mount Stapylton,QLD,-27.718,153.240
+67,Warrego,QLD,-26.44,147.35
+68,Bairnsdale,VIC,-37.89,147.56
+69,Namoi,NSW,-31.0240,150.1915
+70,Perth,WA,-32.39,115.87
+71,Sydney,NSW,-33.701,151.210
+72,Emerald,QLD,-23.5494,148.2392
+73,Townsville,QLD,-19.42,146.55
+75,Mount Isa,QLD,-20.7114,139.5553
+76,Hobart(Mt Koonya),TAS,-43.1122,147.8061
+77,Warruwi,NT,-11.6494,133.38
+78,Weipa,QLD,-12.67,141.92
+79,Watheroo,WA,-30.36,116.29

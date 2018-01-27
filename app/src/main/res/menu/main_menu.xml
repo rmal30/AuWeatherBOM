@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/search"
+        android:title="Search"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_search"
+        />
+    <item
+        android:id="@+id/star"
+        android:title="Star"
+        app:showAsAction="always"
+        android:visible="false"
+        />
+    <item
+        android:id="@+id/about"
+        android:title="About"
+        android:icon="@android:drawable/ic_dialog_info"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/radarMenu"
+        android:title="Radar"
+        app:showAsAction="collapseActionView" />
+</menu>

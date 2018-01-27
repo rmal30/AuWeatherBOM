@@ -1,0 +1,573 @@
+Sydney - Observatory Hill,NSW,-33.8607,151.2050
+Canberra,NSW,-35.3088,149.2004
+Montague Island,NSW,-36.2519,150.2275
+Green Cape,NSW,-37.2622,150.0504
+Ulladulla,NSW,-35.3635,150.4828
+Moruya Heads,NSW,-35.9093,150.1532
+Port Kembla Harbour,NSW,-34.4734,150.9118
+Bellambi,NSW,-34.3691,150.9291
+Kiama,NSW,-34.6532,150.8609
+Point Perpendicular,NSW,-35.0936,150.8049
+Lake Macquarie - Cooranbong,NSW,-33.0887,151.4636
+Norah Head,NSW,-33.2814,151.5766
+Ballina,NSW,-28.8353,153.5585
+Cape Byron,NSW,-28.6399,153.6358
+Yamba,NSW,-29.4335,153.3632
+Evans Head,NSW,-29.1830,153.3964
+Sydney Harbour,NSW,-33.8405,151.2643
+Moss Vale,NSW,-34.5253,150.4217
+Canterbury,NSW,-33.9057,151.1134
+Thredbo Top Station,NSW,-36.4917,148.2859
+Dubbo,NSW,-32.2206,148.5753
+Inverell RS,NSW,-29.7752,151.0820
+Ivanhoe Airport,NSW,-32.8833,144.3092
+Merimbula,NSW,-36.9077,149.8989
+Newcastle Nobbys,NSW,-32.9184,151.7985
+Penrith,NSW,-33.7195,150.6783
+Perisher Valley,NSW,-36.4069,148.4055
+Richmond,NSW,-33.6004,150.7761
+Terrey Hills,NSW,-33.6908,151.2253
+Tuggeranong,NSW,-35.4184,149.0937
+Grafton AgRS,NSW,-29.6224,152.9605
+Grafton Airport,NSW,-29.7583,153.0297
+Lismore Airport,NSW,-28.8305,153.2601
+Coolangatta,NSW,-28.1681,153.5053
+Casino,NSW,-28.8824,153.0618
+Coffs Harbour Airport,NSW,-30.3189,153.1162
+Kempsey Airport,NSW,-31.0711,152.7717
+Port Macquarie Airport,NSW,-31.4335,152.8655
+Taree Airport,NSW,-31.8895,152.5120
+Gosford,NSW,-33.4351,151.3614
+Mangrove Mountain,NSW,-33.2894,151.2107
+Cessnock Airport,NSW,-32.7886,151.3377
+Lostock,NSW,-32.3322,151.4595
+Maitland Airport,NSW,-32.7023,151.4881
+Merriwa,NSW,-32.1852,150.1737
+Williamtown,NSW,-32.7939,151.8364
+Scone Airport,NSW,-32.0335,150.8264
+Singleton (Defence),NSW,-32.6976,151.1564
+Tocal,NSW,-32.6296,151.5919
+Armidale Airport,NSW,-30.5273,151.6158
+Glen Innes Airport,NSW,-29.6780,151.6940
+Sydney Airport,NSW,-33.9465,151.1731
+Fort Denison,NSW,-33.8551,151.2254
+Holsworthy,NSW,-33.9925,150.9489
+Horsley Park,NSW,-33.8510,150.8567
+Lucas Heights,NSW,-34.0519,150.9825
+Sydney Olympic Park,NSW,-33.8338,151.0718
+Badgerys Creek,NSW,-33.8969,150.7281
+Bankstown,NSW,-33.9181,150.9864
+Camden,NSW,-34.0390,150.6890
+Campbelltown,NSW,-34.0615,150.7735
+Nowra,NSW,-34.9469,150.5353
+Albion Park,NSW,-34.5638,150.7900
+Narooma,NSW,-36.2144,150.1358
+Moruya Airport,NSW,-35.9004,150.1437
+Bega,NSW,-36.6722,149.8191
+Mount Boyce,NSW,-33.6185,150.2741
+Bathurst Airport,NSW,-33.4119,149.6540
+High Range (Wanganderry),NSW,-34.3335,150.2670
+Mudgee,NSW,-32.5628,149.6149
+Nullo Mountain,NSW,-32.7244,150.2290
+Orange Airport,NSW,-33.3768,149.1263
+Yass,NSW,-34.8225,148.9080
+Braidwood,NSW,-35.4253,149.7835
+Goulburn Airport,NSW,-34.8085,149.7311
+Nerriga,NSW,-35.1103,150.0826
+Bombala AWS,NSW,-37.0016,149.2336
+Cooma,NSW,-36.2318,149.1243
+Khancoban,NSW,-36.2304,148.1405
+Cabramurra,NSW,-35.9371,148.3779
+Cooma Airport,NSW,-36.2939,148.9725
+Barraba,NSW,-30.3781,150.6096
+Gunnedah Airport,NSW,-30.9537,150.2494
+Moree,NSW,-29.4898,149.8471
+Narrabri,NSW,-30.3154,149.8302
+Tamworth Airport,NSW,-31.0742,150.8362
+Walgett,NSW,-30.0372,148.1223
+Murrurundi Gap,NSW,-31.7416,150.7937
+Brewon,NSW,-30.2411,147.5328
+Condobolin Airport,NSW,-33.0682,147.2133
+Coonabarabran Airport,NSW,-31.3330,149.2699
+Coonamble,NSW,-30.9776,148.3798
+Cowra,NSW,-33.8382,148.6540
+Forbes,NSW,-33.3627,147.9205
+Girilambone,NSW,-31.0822,146.9294
+Parkes Airport,NSW,-33.1281,148.2428
+Temora,NSW,-34.4277,147.5117
+Trangie,NSW,-31.9861,147.9489
+West Wyalong,NSW,-33.9382,147.1962
+Young,NSW,-34.2493,148.2475
+Albury,NSW,-36.0690,146.9509
+Deniliquin,NSW,-35.5575,144.9458
+Griffith,NSW,-34.2487,146.0695
+Hay Airport,NSW,-34.5412,144.8345
+Narrandera Airport,NSW,-34.7050,146.5140
+Wagga Wagga,NSW,-35.1583,147.4575
+Yanco,NSW,-34.6222,146.4326
+Broken Hill Airport,NSW,-32.0012,141.4694
+Bourke,NSW,-30.0362,145.9521
+Cobar,NSW,-31.4840,145.8294
+Cobar Airport,NSW,-31.5388,145.7964
+Fowlers Gap,NSW,-31.0863,141.7008
+Tibooburra Airport,NSW,-29.4448,142.0567
+White Cliffs AWS,NSW,-30.8522,143.0743
+Wilcannia Airport,NSW,-31.5194,143.3850
+Mount Ginini,NSW,-35.5293,148.7721
+Lord Howe Island,NSW,-31.5421,159.0786
+Norfolk Island,NSW,-29.0389,167.9408
+Mulurulu,NSW,-33.3392,143.4000
+Noona,NSW,-31.7267,144.9314
+Smithville,NSW,-30.0664,141.0017
+Melbourne (Olympic Park),VIC,-37.8255,144.9816
+Melbourne Airport,VIC,-37.6655,144.8321
+Avalon,VIC,-38.0287,144.4783
+Cerberus,VIC,-38.3646,145.1785
+Coldstream,VIC,-37.7239,145.4092
+Essendon Airport,VIC,-37.7276,144.9066
+Ferny Creek,VIC,-37.8748,145.3496
+Frankston,VIC,-38.1481,145.1156
+Geelong Racecourse,VIC,-38.1737,144.3765
+Laverton,VIC,-37.8565,144.7566
+Moorabbin Airport,VIC,-37.9800,145.0962
+Rhyll,VIC,-38.4612,145.3101
+Scoresby,VIC,-37.8710,145.2561
+Sheoaks,VIC,-37.9075,144.1303
+Viewbank,VIC,-37.7408,145.0972
+Cape Nelson,VIC,-38.4306,141.5437
+Cape Otway,VIC,-38.8556,143.5128
+Aireys Inlet,VIC,-38.4583,144.0883
+Hogan Island,VIC,-39.2225,146.9841
+Gabo Island,VIC,-37.5679,149.9158
+Kingfish B,VIC,-38.5997,148.1889
+Horsham,VIC,-36.6697,142.1731
+Mount Hotham,VIC,-36.9767,147.1342
+Omeo,VIC,-37.1017,147.6008
+Orbost,VIC,-37.6922,148.4667
+Port Fairy,VIC,-38.3906,142.2347
+Shepparton,VIC,-36.4289,145.3947
+Walpeup,VIC,-35.1201,142.0040
+Charlton,VIC,-36.2847,143.3341
+Hopetoun Airport,VIC,-35.7151,142.3569
+Mildura,VIC,-34.2358,142.0867
+Swan Hill,VIC,-35.3766,143.5416
+Longerenong,VIC,-36.6722,142.2991
+Nhill Aerodrome,VIC,-36.3092,141.6486
+Stawell,VIC,-37.0720,142.7402
+Warracknabeal Airport,VIC,-36.3204,142.4161
+Edenhope,VIC,-37.0222,141.2657
+Kanagulk,VIC,-37.1169,141.8031
+Bendigo,VIC,-36.7395,144.3266
+Kyabram,VIC,-36.3350,145.0638
+Mangalore,VIC,-36.8886,145.1859
+Tatura,VIC,-36.4378,145.2672
+Yarrawonga,VIC,-36.0294,146.0306
+Edi Upper,VIC,-36.7396,146.4671
+Falls Creek,VIC,-36.8708,147.2755
+Hunters Hill,VIC,-36.2136,147.5394
+Mount Buller,VIC,-37.1450,146.4394
+Rutherglen,VIC,-36.1047,146.5094
+Wangaratta,VIC,-36.4206,146.3056
+Mount Hotham Airport,VIC,-37.0491,147.3347
+Bairnsdale,VIC,-37.8817,147.5669
+Combienbar,VIC,-37.3417,149.0228
+Gelantipy,VIC,-37.2200,148.2625
+Mallacoota,VIC,-37.5976,149.7289
+Mount Nowa Nowa,VIC,-37.6924,148.0908
+East Sale Airport,VIC,-38.1156,147.1322
+Latrobe Valley,VIC,-38.2094,146.4747
+Mount Baw Baw,VIC,-37.8383,146.2747
+Mount Moornapa,VIC,-37.7481,147.1428
+Warragul (Nilma North),VIC,-38.1322,145.9867
+Wilsons Promontory,VIC,-39.1297,146.4244
+Yanakie,VIC,-38.8051,146.1939
+Yarram Airport,VIC,-38.5647,146.7479
+Ballarat,VIC,-37.5127,143.7911
+Pound Creek,VIC,-38.6297,145.8107
+Redesdale,VIC,-37.0194,144.5203
+Eildon Fire Tower,VIC,-37.2091,145.8423
+Kilmore Gap,VIC,-37.3807,144.9654
+Ben Nevis,VIC,-37.2281,143.2006
+Casterton,VIC,-37.5830,141.3339
+Dartmoor,VIC,-37.9222,141.2614
+Hamilton,VIC,-37.6486,142.0636
+Mortlake,VIC,-38.0737,142.7744
+Mount Gellibrand,VIC,-38.2333,143.7925
+Mount William,VIC,-37.2950,142.6039
+Portland Airport,VIC,-38.3148,141.4705
+Portland Harbour,VIC,-38.3439,141.6136
+Warrnambool,VIC,-38.2867,142.4522
+Westmere,VIC,-37.7067,142.9378
+Brisbane,QLD,-27.4808,153.0389
+Brisbane Airport,QLD,-27.3917,153.1292
+Amberley,QLD,-27.6297,152.7111
+Archerfield,QLD,-27.5717,153.0078
+Beerburrum,QLD,-26.9586,152.9619
+Beaudesert AWS,QLD,-27.9707,152.9898
+Cape Moreton,QLD,-27.0314,153.4661
+Double Island  Point,QLD,-25.9319,153.1906
+Gatton,QLD,-27.5436,152.3375
+Gold Coast Seaway,QLD,-27.9390,153.4283
+Gympie,QLD,-26.1831,152.6414
+Kingaroy,QLD,-26.5737,151.8398
+Maroochydore,QLD,-26.6006,153.0903
+Nambour,QLD,-26.6442,152.9383
+Oakey,QLD,-27.4034,151.7413
+Point Lookout,QLD,-27.4361,153.5456
+Redcliffe,QLD,-27.2169,153.0922
+Redland (Alexandra Hills),QLD,-27.5433,153.2394
+Tewantin,QLD,-26.3911,153.0403
+Toowoomba,QLD,-27.5425,151.9134
+Warwick,QLD,-28.2061,152.1003
+Wellcamp Airport,QLD,-27.5517,151.7845
+Coconut Island,QLD,-10.0511,143.0686
+Coen Airport,QLD,-13.7606,143.1183
+Kowanyama,QLD,-15.4818,141.7483
+Bundaberg,QLD,-24.9069,152.3230
+Gayndah,QLD,-25.6167,151.6156
+Hervey Bay,QLD,-25.3220,152.8817
+Lady Elliot Island,QLD,-24.1116,152.7161
+Mornington Island Airport,QLD,-16.6620,139.1655
+Normanton,QLD,-17.6872,141.0733
+Century Mine,QLD,-18.7569,138.7056
+Georgetown Airport,QLD,-18.3039,143.5306
+Hughenden,QLD,-20.8192,144.2333
+Horn Island,QLD,-10.5844,142.2900
+Thursday Island,QLD,-10.5865,142.2219
+Cairns,QLD,-16.8736,145.7458
+Cairns Racecourse,QLD,-16.9463,145.7474
+Cape Flattery,QLD,-14.9672,145.3106
+Cooktown,QLD,-15.4461,145.1861
+Cowley Beach (Defence),QLD,-17.6904,146.1126
+Innisfail Aero,QLD,-17.5581,146.0119
+Low Isles,QLD,-16.3842,145.5592
+Lucinda,QLD,-18.5203,146.3861
+Mareeba,QLD,-17.0704,145.4293
+South Johnstone,QLD,-17.6053,145.9972
+Lockhart River,QLD,-12.7850,143.3047
+Alva Beach,QLD,-19.4569,147.4833
+Ayr,QLD,-19.6169,147.3758
+Bowen Airport AWS,QLD,-20.0154,148.2138
+Cape Ferguson,QLD,-19.2774,147.0586
+Townsville,QLD,-19.2483,146.7661
+Woolshed,QLD,-19.4167,146.5364
+Hamilton Island,QLD,-20.3658,148.9536
+Mackay,QLD,-21.1172,149.2169
+Mackay Racecourse,QLD,-21.1700,149.1515
+Mackay Airport,QLD,-21.1706,149.1794
+Middle Percy Island,QLD,-21.6628,150.2711
+Proserpine,QLD,-20.4925,148.5550
+Biloela,QLD,-24.4935,150.5709
+Gladstone,QLD,-23.8553,151.2628
+Gladstone Airport,QLD,-23.8697,151.2214
+Rosslyn Bay Harbour,QLD,-23.1610,150.7901
+Rockhampton,QLD,-23.3753,150.4775
+Rundle Island,QLD,-23.5293,151.2763
+Palmerville,QLD,-15.9999,144.0754
+St Lawrence,QLD,-22.3472,149.5242
+Williamson,QLD,-22.4703,150.1786
+Samuel Hill,QLD,-22.7433,150.6578
+Yeppoon,QLD,-23.1364,150.7506
+Blackwater Airport,QLD,-23.6015,148.8074
+Clermont Airport,QLD,-22.7756,147.6217
+Emerald,QLD,-23.5694,148.1756
+Lochington,QLD,-23.9424,147.5250
+Moranbah Airport,QLD,-22.0644,148.0758
+Rolleston Airport,QLD,-24.4617,148.6264
+Scherger,QLD,-12.6167,142.0869
+Blackall,QLD,-24.4303,145.4306
+Longreach,QLD,-23.4397,144.2828
+Winton,QLD,-22.3617,143.0836
+Camooweal,QLD,-19.9225,138.1214
+Cloncurry,QLD,-20.6664,140.5050
+Weipa,QLD,-12.6778,141.9208
+Julia Creek,QLD,-20.6672,141.7214
+Lake Julius,QLD,-20.1167,139.7256
+Mount Isa,QLD,-20.6778,139.4875
+Carters Bore,QLD,-20.9358,139.2964
+New May Downs,QLD,-20.5900,139.3411
+The Monument,QLD,-21.8125,139.9267
+Trepell,QLD,-21.8400,140.8925
+Ballera,QLD,-27.4008,141.8114
+Birdsville,QLD,-25.8975,139.3472
+Burketown Airport,QLD,-17.7483,139.5356
+Thargomindah,QLD,-27.9867,143.8150
+Windorah,QLD,-25.4117,142.6647
+Charleville,QLD,-26.4139,146.2558
+Roma,QLD,-26.5477,148.7710
+St George,QLD,-28.0489,148.5942
+Applethorpe,QLD,-28.6217,151.9533
+Dalby,QLD,-27.1605,151.2634
+Miles,QLD,-26.6569,150.1819
+Bougainville Reef,QLD,-15.4877,147.1183
+Cato Island,QLD,-23.2503,155.5420
+Creal Reef,QLD,-20.5303,150.3773
+Flinders Reef,QLD,-17.7195,148.4478
+Frederick Reef,QLD,-20.9375,154.4019
+Gannett Cay,QLD,-21.9769,152.4707
+Holmes Reef,QLD,-16.4683,147.8734
+Lihou Reef Lighthouse,QLD,-17.1330,152.1450
+Marion Reef,QLD,-19.0964,152.3892
+Willis Island,QLD,-16.2878,149.9652
+Perth,WA,-31.9192,115.8728
+Adele Island,WA,-15.5114,123.1556
+Perth Airport,WA,-31.9275,115.9764
+Argyle,WA,-16.6381,128.4517
+Millendon (Swan Valley),WA,-31.8108,116.0225
+Kununurra Airport,WA,-15.7814,128.7100
+Walpole North,WA,-34.9469,116.7222
+Witchcliffe,WA,-34.0281,115.1042
+Albany Airport,WA,-34.9411,117.8158
+Jacup,WA,-33.8878,119.1092
+Rocky Gully South,WA,-34.5714,117.0106
+Hillarys Point Boat Harbour,WA,-31.8256,115.7386
+Lombadina,WA,-16.5158,122.9214
+Esperance,WA,-33.8300,121.8925
+Esperance Airport,WA,-33.6825,121.8275
+Esperance Harbour,WA,-33.8707,121.8971
+Hopetoun North,WA,-33.9306,120.1283
+Munglinup West,WA,-33.5547,120.6997
+Salmon Gums RS,WA,-32.9869,121.6239
+Pearce,WA,-31.6669,116.0189
+Mandora,WA,-19.7419,120.8433
+Katanning RS,WA,-33.6856,117.6064
+Lake Grace,WA,-33.1006,118.4647
+Newdegate,WA,-33.1131,118.8400
+Wandering,WA,-32.6722,116.6706
+Rottnest Island,WA,-32.0069,115.5022
+Cunderdin Airport,WA,-31.6219,117.2217
+Dalwallinu,WA,-30.2761,116.6714
+Southern Cross Airport,WA,-31.2353,119.3564
+Swanbourne,WA,-31.9558,115.7619
+Troughton Island,WA,-13.7542,126.1485
+Truscott,WA,-14.0900,126.3867
+West Roebuck,WA,-17.8964,122.3122
+Bickley,WA,-32.0072,116.1369
+Wyndham Airport,WA,-15.5100,128.1503
+Barrow Island,WA,-20.8740,115.4066
+Bedout Island,WA,-19.5894,119.1000
+Karratha,WA,-20.7097,116.7742
+Learmonth,WA,-22.2406,114.0967
+Barimunya,WA,-22.6719,119.1628
+Christmas Creek,WA,-22.3562,119.6497
+Coondewanna,WA,-22.9650,118.8089
+Fortescue Dave Forrest,WA,-22.2900,119.4344
+Marble Bar,WA,-21.1756,119.7497
+Mardie,WA,-21.1906,115.9797
+Newman Airport,WA,-23.4167,119.7992
+Onslow Airport,WA,-21.6689,115.1092
+Broome,WA,-17.9475,122.2353
+Broome Port,WA,-18.0008,122.2183
+Paraburdoo,WA,-23.1725,117.7494
+Port Hedland,WA,-20.3725,118.6317
+Legendre Island,WA,-20.3583,116.8431
+Roebourne Airport,WA,-20.7594,117.1583
+Solomon Airport,WA,-22.2547,117.8470
+Telfer,WA,-21.7125,122.2281
+Carnarvon,WA,-24.8878,113.6700
+Meekatharra,WA,-26.6136,118.5372
+Degrussa Aerodrome,WA,-25.5571,119.2868
+Garden Island,WA,-32.2433,115.6839
+Curtin,WA,-17.5769,123.8297
+Mount Magnet Airport,WA,-28.1156,117.8425
+Shark Bay Airport,WA,-25.8925,113.5772
+Kalgoorlie-Boulder,WA,-30.7847,121.4533
+Leinster,WA,-27.8386,120.7031
+Leonora Airport,WA,-28.8789,121.3186
+Gooseberry Hill,WA,-31.9414,116.0506
+Gosnells,WA,-32.0481,115.9844
+Norseman Airport,WA,-32.2147,121.7547
+Mount Keith,WA,-27.2856,120.5547
+Yeelirrie,WA,-27.2842,120.0931
+Balladonia,WA,-32.4569,123.8653
+Eucla,WA,-31.6797,128.8958
+Forrest,WA,-30.8453,128.1092
+Giles,WA,-25.0341,128.3010
+Warburton,WA,-26.1317,126.5839
+Jandakot,WA,-32.1011,115.8794
+Derby,WA,-17.3706,123.6611
+Badgingarra,WA,-30.3381,115.5394
+Geraldton Airport,WA,-28.8047,114.6989
+Morawa Airport,WA,-29.2039,116.0247
+Karnet,WA,-32.4389,116.0789
+Fitzroy Crossing,WA,-18.1814,125.5619
+North Island,WA,-28.3008,113.5936
+Dwellingup,WA,-32.7103,116.0594
+Gingin Airport,WA,-31.4628,115.8642
+Mandurah,WA,-32.5219,115.7119
+Halls Creek,WA,-18.2336,127.6667
+Bridgetown,WA,-33.9486,116.1311
+Medina,WA,-32.2208,115.8075
+Kalumburu,WA,-14.2964,126.6453
+Bunbury,WA,-33.3567,115.6447
+Busselton Airport,WA,-33.6858,115.4008
+Cape Leeuwin,WA,-34.3728,115.1358
+Cape Naturaliste,WA,-33.5372,115.0189
+Collie East,WA,-33.3608,116.1717
+Manjimup,WA,-34.2508,116.1450
+Rowley Shoals,WA,-17.5217,118.9531
+Christmas Island,WA,-10.4528,105.6875
+Cocos Island,WA,-12.1892,96.8344
+Adelaide (West Terrace /  ngayirdapira),SA,-34.9257,138.5832
+Adelaide (Kent Town),SA,-34.9211,138.6216
+Neptune Island,SA,-35.3365,136.1174
+Warburto Point,SA,-34.0041,137.5280
+Cape Willoughby,SA,-35.8426,138.1327
+Cape Jaffa,SA,-36.9655,139.7164
+Hindmarsh Island,SA,-35.5194,138.8177
+Clare,SA,-33.8226,138.5933
+Cleve Airport,SA,-33.7081,136.5026
+Leigh Creek,SA,-30.5963,138.4219
+Moomba Airport,SA,-28.0997,140.1956
+Naracoorte,SA,-36.9813,140.7270
+Nuriootpa,SA,-34.4761,139.0056
+Port Augusta,SA,-32.5073,137.7169
+Port Pirie Airport AWS,SA,-33.2371,137.9971
+Roseworthy,SA,-34.5106,138.6763
+Stenhouse Bay,SA,-35.2795,136.9392
+Strathalbyn,SA,-35.2836,138.8934
+Tarcoola,SA,-30.7051,134.5786
+Adelaide Airport,SA,-34.9524,138.5196
+Parafield,SA,-34.7977,138.6281
+Edithburgh,SA,-35.1121,137.7395
+Kadina,SA,-33.9703,137.6628
+Minlaton Airport,SA,-34.7480,137.5276
+Kingscote,SA,-35.7114,137.5231
+Parndana,SA,-35.7916,137.2496
+Cape Borda,SA,-35.7549,136.5959
+Keith West,SA,-36.1058,140.3273
+Coonawarra,SA,-37.2906,140.8254
+Robe,SA,-37.1628,139.7560
+Mount Gambier,SA,-37.7473,140.7739
+Robe Airport,SA,-37.1776,139.8054
+Padthaway,SA,-36.6539,140.5212
+Loxton,SA,-34.4390,140.5978
+Renmark Airport,SA,-34.1983,140.6766
+Pallamana,SA,-35.0650,139.2273
+Lameroo AWS,SA,-35.3778,140.5378
+Snowtown,SA,-33.7676,138.2182
+Ceduna,SA,-32.1297,133.6976
+Minnipa RS,SA,-32.8427,135.1515
+Nullarbor,SA,-31.4492,130.8976
+Wudinna Airport,SA,-33.0430,135.4519
+Whyalla,SA,-33.0539,137.5206
+Cummins Airport,SA,-34.2524,135.7135
+Point Avoid,SA,-34.6750,135.3362
+Port Lincoln Airport,SA,-34.5993,135.8784
+Coober Pedy Airport,SA,-29.0347,134.7222
+Ernabella/Pukatja,SA,-26.2635,132.1771
+Roxby Downs,SA,-30.4829,136.8772
+Woomera,SA,-31.1558,136.8054
+Gluepot,SA,-33.7622,140.1251
+Marree Airport,SA,-29.6587,138.0684
+Oodnadatta,SA,-27.5553,135.4456
+Yunta,SA,-32.5707,139.5645
+Parawa West,SA,-35.5695,138.2864
+Edinburgh,SA,-34.7111,138.6222
+Kuitpo,SA,-35.1712,138.6783
+Mount Crawford,SA,-34.7253,138.9278
+Mount Lofty,SA,-34.9784,138.7088
+Noarlunga,SA,-35.1586,138.5057
+Hobart,TAS,-42.8897,147.3278
+Smithton,TAS,-40.8347,145.0847
+Friendly Beaches,TAS,-41.9953,148.2794
+Maria Island,TAS,-42.6621,148.0179
+Tasman Island,TAS,-43.2397,148.0025
+Spring Bay,TAS,-42.5464,147.9308
+Cape Bruny,TAS,-43.4892,147.1453
+Cape Bruny AWS,TAS,-43.4886,147.1444
+Low Rocky Point,TAS,-42.9831,145.5025
+Maatsuyker Island,TAS,-43.6578,146.2711
+Cape Sorell,TAS,-42.1986,145.1700
+Strahan,TAS,-42.1550,145.2908
+Swan Island,TAS,-40.7292,148.1250
+Hobart Airport,TAS,-42.8339,147.5033
+Campania,TAS,-42.6867,147.4258
+Flinders Island Airport,TAS,-40.0911,148.0024
+Liawenee,TAS,-41.8997,146.6694
+kunanyi /Mount Wellington,TAS,-42.8950,147.2358
+Ouse,TAS,-42.4842,146.7106
+Low Head,TAS,-41.0547,146.7874
+Larapuna (Eddystone Point),TAS,-40.9928,148.3467
+Scottsdale,TAS,-41.1708,147.4883
+Fingal,TAS,-41.6428,147.9664
+St Helens,TAS,-41.3381,148.2792
+Launceston,TAS,-41.4194,147.1219
+Launceston Airport,TAS,-41.5492,147.2144
+Cressy,TAS,-41.7256,147.0794
+Tunnack,TAS,-42.4543,147.4612
+Grove,TAS,-42.9858,147.0742
+Hartz Mountains,TAS,-43.2006,146.7683
+Dunalley,TAS,-42.9017,147.7894
+Dennes Point,TAS,-43.0639,147.3567
+Bushy Park,TAS,-42.7097,146.8983
+Butlers Gorge,TAS,-42.2753,146.2758
+Maydena,TAS,-42.7567,146.6239
+Scotts Peak,TAS,-43.0425,146.2722
+Warra,TAS,-43.0609,146.7040
+Cape Grim,TAS,-40.6764,144.6922
+Wynyard,TAS,-40.9964,145.7311
+Burnie Port,TAS,-41.0500,145.9149
+Luncheon Hill,TAS,-41.1492,145.1517
+Devonport Airport,TAS,-41.1701,146.4289
+Sheffield,TAS,-41.3886,146.3219
+King Island Airport,TAS,-39.8801,143.8829
+Casey,TAS,-66.2825,110.5231
+Cape Poinsett,TAS,-65.8449,113.0667
+Novolazarevskaja,TAS,-70.7667,11.8333
+Syowa,TAS,-69.0000,39.5833
+Macquarie Island,TAS,-54.4994,158.9369
+Casey Skiway,TAS,-66.2803,110.7615
+Davis,TAS,-68.5744,77.9672
+Dumont D'urville,TAS,-66.6631,140.0081
+Amery,TAS,-70.8919,69.8725
+Mawson,TAS,-67.6017,62.8753
+McMurdo,TAS,-77.8500,166.6667
+Mirnyj,TAS,-66.5500,93.0167
+Darwin Airport,NT,-12.4239,130.8925
+Batchelor,NT,-13.0544,131.0252
+Charles Point,NT,-12.3895,130.6306
+Point Fawcett,NT,-11.7628,130.0300
+Point Stuart,NT,-12.2397,131.8791
+Jabiru,NT,-12.6592,132.8940
+McCluer Island,NT,-11.0468,132.9791
+Wadeye (Port Keats),NT,-14.2494,129.5282
+Tindal,NT,-14.5229,132.3826
+Bradshaw,NT,-14.9408,130.8091
+Cape Wessel,NT,-11.0047,136.7586
+Gove Airport,NT,-12.2741,136.8201
+Groote Eylandt Airport,NT,-13.9746,136.4630
+Maningrida Airport,NT,-12.0569,134.2339
+Milingimbi,NT,-12.0932,134.8919
+Ngayawili (Elcho Island),NT,-11.9971,135.5726
+Warruwi,NT,-11.6500,133.3797
+Borroloola,NT,-16.0755,136.3041
+Bulman,NT,-13.6715,134.3415
+Centre Island,NT,-15.7426,136.8192
+Daly Waters,NT,-16.2637,133.3782
+McArthur River Mine,NT,-16.4423,136.0760
+Central Arnhem Plateau,NT,-13.3275,133.0861
+Lajamanu,NT,-18.3324,130.6361
+Victoria River Downs,NT,-16.4030,131.0145
+Wave Hill (Kalkarindji),NT,-17.3869,131.1166
+Dum In Mirrie,NT,-12.6350,130.3725
+Tennant Creek,NT,-19.6423,134.1833
+Alice Springs Airport,NT,-23.7951,133.8890
+Curtin Springs,NT,-25.3139,131.7571
+Jervois,NT,-22.9494,136.1442
+Wulungurru (Kintore),NT,-23.2656,129.3844
+Kulgera,NT,-25.8428,133.3027
+Rabbit Flat,NT,-20.1823,130.0148
+Territory Grape Farm,NT,-22.4518,133.6377
+Yulara,NT,-25.1896,130.9737
+Middle Point,NT,-12.6050,131.2988
+Delamere,NT,-15.7441,131.9181
+Noonamah,NT,-12.6099,131.0474
+Douglas River,NT,-13.8345,131.1872
+Pirlangimpi,NT,-11.4021,130.4217
+Gunn Point,NT,-12.2490,131.0449
+Croker Island Airport,NT,-11.1629,132.4813
+Murganella Airstrip,NT,-11.5485,132.9266
+Oenpelli Airstrip,NT,-12.3272,133.0069
+Ngukurr AWS,NT,-14.7236,134.7456
+Northern Endeavour,NT,-10.6134,125.9843
