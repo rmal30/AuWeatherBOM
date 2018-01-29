@@ -37,7 +37,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -69,8 +68,9 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
 public class MainActivity extends AppCompatActivity {
-    public static class USwipeRefreshLayout extends SwipeRefreshLayout {
 
+    //Swipe refresh layout for reloading weather. Only triggers when the user slides down
+    public static class USwipeRefreshLayout extends SwipeRefreshLayout {
         private int touchSlop;
         private float prevX;
         private boolean declined;
@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             return super.onInterceptTouchEvent( event );
         }
     }
+
+    //Object used to store the weather data
     private class Tree{
         String type, value;
         ArrayList<Tree> children;
@@ -139,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         }
         */
     }
+
+    //Forecast object
     public class Forecast{
         String day, max,min,rainProbability, description, rainRange;
         int forecastIcon;
@@ -146,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    //Adapter that loads the forecast view
     public class ForecastAdapter extends BaseAdapter{
         private Context ctx;
         private ArrayList<Forecast> forecasts;
@@ -164,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
             }
             Forecast forecast = forecasts.get(i);
             int weatherIcon;
+
+            //Forecast weather icons
             switch(forecast.forecastIcon){
                 case 1: weatherIcon = R.drawable.ic_sunny; break;
                 case 2: weatherIcon = R.drawable.ic_clear; break;
@@ -177,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 case 16: weatherIcon = R.drawable.ic_stormy; break;
                 default: weatherIcon = R.drawable.ic_partly_cloudy; break;
             }
+
             final ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
             if(Build.VERSION.SDK_INT<23) {
                 //noinspection deprecation
@@ -221,6 +230,8 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    //Pager adapter to switch between radar and weather
     public class CustomPagerAdapter extends PagerAdapter{
         private Context mContext;
 
@@ -256,6 +267,8 @@ public class MainActivity extends AppCompatActivity {
             return 2;
         }
     }
+
+    //Old and slower way of parsing XML
     public ArrayList<Tree> parseXMLOld(String xmlData, int start, int end){
         char c, c2;
         if(start == 0){
@@ -333,6 +346,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return XMLNodes;
     }
+
+    //XML parser
     public Tree parseXML(String xmlData){
         if(xmlData==null){
             return null;
@@ -412,6 +427,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return node;
     }
+
+    //Print out the object data as xml, used to verify that xml is read properly
     public String printXML(ArrayList<Tree> tree){
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -440,13 +457,13 @@ public class MainActivity extends AppCompatActivity {
         sb.append("]");
         return sb.toString();
     }
-    String root = "ftp://ftp.bom.gov.au/anon/gen/";
-    final String fwoRoot = root+"fwo/";
-    final String radarRoot = root+"radar/";
-    final String radarRoot2 = root+"radar_transparencies/";
-    final String[] states = {"NSW", "VIC", "QLD", "WA", "SA", "TAS", "NT"};
+
+    String root = "ftp://ftp.bom.gov.au/anon/gen/"; //Bureau of Meteorology FTP site
+    final String fwoRoot = root+"fwo/"; //Weather observations and forecasts
+    final String radarRoot = root+"radar/"; //Radar
+    final String[] states = {"NSW", "VIC", "QLD", "WA", "SA", "TAS", "NT"}; //States of Australia
     final String[] forecastIDs = {"11060", "10753", "11295", "14199", "10044", "16710", "10207"};
-    final String[] letters = {"N", "V", "Q", "W", "S", "T", "D"};
+    final String[] letters = {"N", "V", "Q", "W", "S", "T", "D"}; //Used by BOM
     boolean loaded = true;
     boolean radarLoaded = false;
     Tree[] observations = {null, null, null, null, null, null, null};
@@ -466,6 +483,8 @@ public class MainActivity extends AppCompatActivity {
     String currentPlace, currentTemp;
     ArrayAdapter<String> listAdapter;
     FTPClient ftp;
+
+    //Used for testing purposes
     public void saveStationData(){
         ArrayList<String> places = new ArrayList<>();
         String file = "";
@@ -532,6 +551,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    //Startup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -544,27 +565,34 @@ public class MainActivity extends AppCompatActivity {
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mCustomPagerAdapter);
         mViewPager.setCurrentItem(0);
+
+
+        //Get all indexed text files that contain location information
         stationList = getList("stations.txt", 4);
         forecastList = getList("forecastList.txt", 4);
         townList = getList("townList.txt", 5);
         radarList = getList("radarList.txt", 5);
         places = townList.keySet().toArray(new String[townList.size()]);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        String place = sp.getString("location", null);
-        String bookmarks = sp.getString("Bookmarks", "");
+        String place = sp.getString("location", null); //Get back previous location visited
+        String bookmarks = sp.getString("Bookmarks", ""); //Get weather bookmarks
+
+        //Read favorites in
         if(bookmarks.equals("")){
             favorites = new ArrayList<>();
         }else{
             favorites = new ArrayList<>(Arrays.asList(bookmarks.split("\\n")));
         }
 
+
         if(townList!=null && townList.containsKey(place)) {
             if(currentPlace!=null && !currentPlace.equals(place)){
                 history.push(currentPlace);
             }
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            getData(place);
+            getData(place); //Load stored place
         }else{
+            //Bad data, so reset all stored data
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
             editor.remove("Bookmarks");
             editor.remove("location");
@@ -576,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final LayoutInflater li = LayoutInflater.from(this);
-        View v = li.inflate(R.layout.drawer_main, null);
+        View v = li.inflate(R.layout.drawer_main, null); //Drawer with bookmarks
         setupDrawer();
         ((RelativeLayout)findViewById(R.id.navigation_drawer)).addView(v);
         ListView mDrawerList = (ListView) v.findViewById(R.id.left_drawer);
@@ -591,7 +619,7 @@ public class MainActivity extends AppCompatActivity {
                     history.push(currentPlace);
                 }
                 if(loaded) {
-                    getData(place);
+                    getData(place); //Load weather information from location stored in bookmark
                     mDrawerLayout.closeDrawer(findViewById(R.id.navigation_drawer));
                 }
             }
@@ -608,6 +636,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //Forecast view
         GridView grid = (GridView) findViewById(R.id.forecasts);
         ForecastAdapter forecastAdapter = new ForecastAdapter(this, forecasts);
         grid.setAdapter(forecastAdapter);
@@ -621,6 +651,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Load radar
     public void loadRadar(String place, final boolean invalidate, final int oldZoomLevel){
         radarLoaded = false;
         String radarPlace = findNearestLocation(townList.get(place), radarList);
@@ -695,6 +727,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Zoom in or out of radar
     public void zoom(View v){
         if(!radarLoaded){
             return;
@@ -735,7 +768,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.app_name, R.string.app_name) {
-
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -751,6 +783,8 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
+
+    //Read index file and store information in a dictionary for easy access
     public HashMap<String, String> getList(String filename, int columnCount){
         byte[] buffer = new byte[4096];
         try {
@@ -781,6 +815,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Start accessing BOM ftp
     public void setupFTP(){
         try {
             if(ftp==null || !ftp.sendNoOp()) {
@@ -797,6 +832,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Download weather files from BOM
     public ByteArrayOutputStream readFileStream(String path, String filename){
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(65536);
         try {
@@ -813,6 +849,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Download file and save it as a byte array
     public byte[] readFile(String path, String filename){
         final ByteArrayOutputStream baos = readFileStream(path, filename);
         try {
@@ -825,6 +862,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Find out when BOM data files were last updated
     public String getDateModified(String path, String filename){
         setupFTP();
         try {
@@ -834,6 +872,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Download file and return the string contents of it
     public String readText(String path, String filename){
         final ByteArrayOutputStream baos = readFileStream(path, filename);
         try {
@@ -845,6 +884,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Compute approximate distance between two coordinates. Use Pythogoras theorem as distances are short enough
     public int distance(String pos1, String pos2){
         String[] coords1 = pos1.split(",");
         String[] coords2 = pos2.split(",");
@@ -855,6 +895,7 @@ public class MainActivity extends AppCompatActivity {
         return (int) Math.round((10000/90)*Math.sqrt((lat2-lat1)*(lat2-lat1)+(lon2-lon1)*(lon2-lon1)));
     }
 
+    //Find the nearest location from a given position
     public String findNearestLocation(String position, HashMap<String, String> list){
         int minDist = 10000;
         int curDist;
@@ -872,10 +913,13 @@ public class MainActivity extends AppCompatActivity {
         return nearestPlace;
     }
 
+    //Get weather data for a location
     public void getData(final String place){
         if(place==null){
             return;
         }
+
+        //Read local index if not read yet
         if(townList==null || townList.size()==0){
             townList = getList("townList.txt", 5);
             stationList = getList("stations.txt", 4);
@@ -883,12 +927,15 @@ public class MainActivity extends AppCompatActivity {
             radarList = getList("radarList.txt", 5);
             places = townList.keySet().toArray(new String[townList.size()]);
         }
+
+        //Invalid place chosen - Not in the town list index
         if(!townList.containsKey(place)){
             if(toast!=null){toast.cancel();}
             toast = Toast.makeText(this, "Place chosen is invalid, please select another place", Toast.LENGTH_SHORT);
             toast.show();
             return;
         }
+
         currentPlace = place;
 
         this.invalidateOptionsMenu();
@@ -897,11 +944,14 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("location", currentPlace);
         editor.apply();
 
+
+        //Find nearest BOM observation station and forecast place
         final String obsStation = findNearestLocation(townList.get(place), stationList);
-        System.out.println(obsStation);
         final String forecastPlace = findNearestLocation(townList.get(place), forecastList);
         int obsStateID=-1, fStateID=-1;
 
+
+        //Find the state of the place
         for(int i=0; i<states.length; i++){
             if(obsStation!=null && states[i].equals(obsStation.split(", ")[1])){
                 obsStateID = i;
@@ -915,9 +965,10 @@ public class MainActivity extends AppCompatActivity {
         final int fStateID2 = fStateID;
         loaded = false;
         final TextView textView = (TextView) findViewById(R.id.textView);
+
+        //Download weather in background
         Thread t = new Thread() {
             public void run (){
-
                 String s;
                 int obsDist2=0, fDist2=0;
                 long now = System.currentTimeMillis();
@@ -927,7 +978,7 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 String lastModified;
                 if(obsStateID2!=-1){
-                    final String filename = "ID" + letters[obsStateID2] + "60920.xml";
+                    final String filename = "ID" + letters[obsStateID2] + "60920.xml"; //Weather observations
                     obsDist2 = distance(townList.get(place), stationList.get(obsStation));
                     lastModified = getDateModified(fwoRoot, filename);
                     if(lastModified==null){
@@ -959,6 +1010,7 @@ public class MainActivity extends AppCompatActivity {
                     String stationName = station.properties.get("description");
                     //boolean wordExists2 = stationName2.toUpperCase().contains(place2.split(" ")[0]);
                     if (stationName.equals(place2)) {
+                        //Place found in weather data
                         sb.delete(0, sb.length());
                         title2 = stationName.split(",")[0];
                         Tree data = station.children.get(0);
@@ -1027,6 +1079,7 @@ public class MainActivity extends AppCompatActivity {
             }
                 StringBuilder sb2 = new StringBuilder();
                 forecasts.clear();
+            //Forecasts
             if(fStateID2!=-1) {
                 final String filename2 = "ID" + letters[fStateID2] + forecastIDs[fStateID2] + ".xml";
                 lastModified = getDateModified(fwoRoot, filename2);
@@ -1103,6 +1156,7 @@ public class MainActivity extends AppCompatActivity {
                                 if(issueTime != null) {
                                     hour = Integer.parseInt(issueTime.split(":")[0]);
                                 }
+                                //Access properties
                                 for (Tree k : m.children) {
                                     switch (k.properties.get("type")) {
                                         case "precis":
@@ -1155,7 +1209,7 @@ public class MainActivity extends AppCompatActivity {
                 final String s2 = sb.toString();
                 final String s3 = sb2.toString();
                 final int obsDist=obsDist2;
-
+                //All weather information ready - Add it to GUI
                 runOnUiThread(new Runnable(){
                     public void run(){
                         findViewById(R.id.relative).setVisibility(View.VISIBLE);
@@ -1231,6 +1285,7 @@ public class MainActivity extends AppCompatActivity {
         t.start();
     }
 
+    //Longest common substring, no longer used
     public double lcs(String str1, String str2){
         int i=0;
         str1 = str1.replaceAll("\\(", "").replaceAll("\\)","").replaceAll("-","");
@@ -1239,6 +1294,7 @@ public class MainActivity extends AppCompatActivity {
         return ((double)i)/(str1.length()+str2.length());
     }
 
+    //Color code for temperature.
     int tempColor(float temp) {
         int color;
         int silver = Color.rgb(150, 150,150);
@@ -1264,12 +1320,15 @@ public class MainActivity extends AppCompatActivity {
         }
         return color;
     }
+
+    //Used to find colors that blend between two colors
     int interpolate(int color1, int color2, float control, int limit){
         float red = Color.red(color1)*(1-control/limit)+Color.red(color2)*control/limit;
         float blue = Color.blue(color1)*(1-control/limit)+Color.blue(color2)*control/limit;
         float green = Color.green(color1)*(1-control/limit)+Color.green(color2)*control/limit;
         return Color.rgb(Math.round(red), Math.round(green), Math.round(blue));
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -1289,6 +1348,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         int id = item.getItemId();
+        //Add or remove from bookmarks
         if (id == R.id.star) {
             if(toast!=null){toast.cancel();}
             if(!favorites.contains(currentPlace)) {
@@ -1330,28 +1390,32 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Show radar
     public void showRadar(View v){
         ((ViewPager)findViewById(R.id.pager)).setCurrentItem(1);
     }
 
+
+    //User pressed back button, so close bookmarks, go to previous place or close the app
     @Override
     public void onBackPressed() {
         View v = findViewById(R.id.navigation_drawer);
         if(mDrawerLayout.isDrawerOpen(v)){
-            mDrawerLayout.closeDrawer(v);
+            mDrawerLayout.closeDrawer(v); //Bookmarks open, so close that
             return;
         }
         if (history.size()>0) {
             if(loaded) {
-                getData(history.pop());
+                getData(history.pop()); //Go back if user pressed back when the weather was loaded
                 return;
             }
         }
 
         // Otherwise defer to system default behavior.
-        super.onBackPressed();
+        super.onBackPressed(); // Close application if user pressed back before the weather loads
     }
 
+    //Show the search field that allows the user to enter a location
     public void showSearch() {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         if (townList == null) {
@@ -1385,6 +1449,7 @@ public class MainActivity extends AppCompatActivity {
         location.setOnEditorActionListener( new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    //User pressed enter
                     if(adapter.getCount()>0) {
                         getData(adapter.getItem(0));
                         alertDialog.dismiss();
@@ -1398,6 +1463,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //Place selected
         location.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1410,12 +1477,13 @@ public class MainActivity extends AppCompatActivity {
                 if(currentPlace!=null && !currentPlace.equals(place)){
                     history.push(currentPlace);
                 }
-                getData(place);
+                getData(place); //Load weather data for place
                 alertDialog.dismiss();
             }
         });
     }
 
+    //No longer used
     public void showBookmarks(){
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         ListView listView = new ListView(this);
@@ -1468,6 +1536,8 @@ public class MainActivity extends AppCompatActivity {
         });
         registerForContextMenu(listView);
     }
+
+    //User long pressed on one of the bookmarks. Context menu allows user to delete bookmarks
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo info) {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) info;
@@ -1496,6 +1566,8 @@ public class MainActivity extends AppCompatActivity {
         });
         super.onCreateContextMenu(menu, v, info);
     }
+
+    //Join elements of an array list into a string
     public String joinArrayList(ArrayList<String> arrList, String separator){
     String prefix = "";
     StringBuilder sb = new StringBuilder();
@@ -1506,11 +1578,14 @@ public class MainActivity extends AppCompatActivity {
     }
     return sb.toString();
 }
+
     @Override
     public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);
         mDrawerToggle.onConfigurationChanged(config);
     }
+
+    //Show whether a place is bookmarked or not
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         int starId;
