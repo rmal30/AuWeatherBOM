@@ -17,6 +17,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -598,9 +599,11 @@ public class MainActivity extends AppCompatActivity {
             editor.remove("location");
             editor.apply();
         }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final LayoutInflater li = LayoutInflater.from(this);
@@ -653,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Load radar
-    public void loadRadar(String place, final boolean invalidate, final int oldZoomLevel){
+    public void loadRadar(final String place, final boolean invalidate, final int oldZoomLevel){
         radarLoaded = false;
         String radarPlace = findNearestLocation(townList.get(place), radarList);
         final int[] zoomRange = {512, 256, 128, 64};
@@ -694,6 +697,53 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     if (byteArray2 != null) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray2, 0, byteArray2.length);
+                        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                        int x, y;
+                        String[] stationData, radarData;
+                        int height = bitmap.getHeight();
+                        int width = bitmap.getWidth();
+                        int stateID = 0;
+                        String stationName;
+                        radarData = radarList.get(radarPlace2).split(",");
+                        HashMap<String, Integer> colorTemp = new HashMap<>();
+                        String stationPlace;
+                        for(int i=0; i<states.length; i++) {
+                            stationPlace = findNearestLocation(townList.get(place), stationList);
+                            if(states[i].equals(stationPlace.split(", ")[1])){
+                                stateID = i;
+                            }
+                        }
+
+                        if(observations[stateID] != null) {
+                            for (Tree obsStation : observations[stateID].children) {
+                                stationName = obsStation.properties.get("description");
+                                ArrayList<Tree> info = obsStation.children.get(0).children.get(0).children;
+
+                                for (Tree m : info) {
+                                    if (m.properties.get("type").equals("air_temperature")) {
+                                        colorTemp.put(stationName.split(",")[0], tempColor(Float.valueOf(m.value)));
+                                    }
+                                }
+                            }
+                        }
+                        for(String station: stationList.keySet()) {
+                            stationData = stationList.get(station).split(",");
+                            x = 261 + (int) Math.round(10000*0.9771*0.5*Math.cos(Float.valueOf(radarData[0])*Math.PI/180)*width*(Float.valueOf(stationData[1]) - Float.valueOf(radarData[1]))/(90*zoomRange[zoomLevel - 1]));
+                            y = 261 - (int) Math.round(10000*0.9078*0.5*height*(Float.valueOf(stationData[0]) - Float.valueOf(radarData[0]))/(90*zoomRange[zoomLevel - 1]));
+                            if(colorTemp.containsKey(station.split(", ")[0])) {
+                                if (x > 10 && y > 10 && x < 500 && y < 500) {
+                                    for (int i = -4; i < 5; i++) {
+                                        for (int j = -4; j < 5; j++) {
+                                            if (i * i + j * j < 16) {
+                                                bitmap.setPixel(x + i, y + j, colorTemp.get(station.split(", ")[0]));
+                                            }else if(i*i + j*j >= 16 && i*i + j*j <= 20) {
+                                                bitmap.setPixel(x + i, y + j, Color.WHITE);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         TextView radarText = (TextView) findViewById(R.id.radarTitle);
                         radarText.setText(radarPlace2.split(",")[0] + " radar, "+String.valueOf(zoomRange[zoomLevel-1])+"km:");
                         ImageView imageView = (ImageView) findViewById(R.id.radarImage);
@@ -884,7 +934,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Compute approximate distance between two coordinates. Use Pythogoras theorem as distances are short enough
+    //Compute approximate distance between two coordinates. Use Pythagoras theorem as distances are short enough
     public int distance(String pos1, String pos2){
         String[] coords1 = pos1.split(",");
         String[] coords2 = pos2.split(",");
@@ -1233,10 +1283,10 @@ public class MainActivity extends AppCompatActivity {
                                 ((TextView) findViewById(R.id.maxTemp)).setText(String.format("Max: %s°C", maxTemp));
                                 gd[0] = new ColorDrawable(Color.TRANSPARENT);
                                 gd[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                                        new int[]{tempColor(Float.valueOf(temp) + 1.5f), tempColor(Float.valueOf(temp)), tempColor(Float.valueOf(temp) - 1.5f)});
+                                        new int[]{tempColor(Float.valueOf(temp) + 2f), tempColor(Float.valueOf(temp)), tempColor(Float.valueOf(temp) - 2f)});
                                 if (currentTemp != null) {
                                     gd[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                                            new int[]{tempColor(Float.valueOf(currentTemp) + 1.5f), tempColor(Float.valueOf(currentTemp)), tempColor(Float.valueOf(currentTemp) - 1.5f)});
+                                            new int[]{tempColor(Float.valueOf(currentTemp) + 2f), tempColor(Float.valueOf(currentTemp)), tempColor(Float.valueOf(currentTemp) - 2f)});
                                 }
                                 td = new TransitionDrawable(gd);
                                 td.startTransition(300);
@@ -1587,6 +1637,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Show whether a place is bookmarked or not
     @Override
+    @SuppressWarnings("deprecation")
     public boolean onPrepareOptionsMenu(Menu menu) {
         int starId;
         if (currentPlace!=null) {

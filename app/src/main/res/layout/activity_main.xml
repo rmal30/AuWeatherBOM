@@ -234,12 +234,12 @@
         </LinearLayout>
         </ScrollView>
     </android.support.v4.view.ViewPager>
+
     <RelativeLayout
         android:id="@+id/navigation_drawer"
         android:name="com.rmal30.auweatherbom.NavigationDrawerFragment"
         android:layout_width="210dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#6000"
-         />
+        android:background="#6000" />
 </android.support.v4.widget.DrawerLayout>
