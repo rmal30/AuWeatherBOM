@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="zoom"
-                android:src="@drawable/ic_zoom_in" />
+                android:src="@drawable/ic_zoom_in"/>
 
             <ImageView
                 android:id="@+id/zoom_out"

@@ -75,7 +75,6 @@ Braidwood,NSW,-35.4253,149.7835
 Goulburn Airport,NSW,-34.8085,149.7311
 Nerriga,NSW,-35.1103,150.0826
 Bombala AWS,NSW,-37.0016,149.2336
-Cooma,NSW,-36.2318,149.1243
 Khancoban,NSW,-36.2304,148.1405
 Cabramurra,NSW,-35.9371,148.3779
 Cooma Airport,NSW,-36.2939,148.9725
@@ -85,7 +84,6 @@ Moree,NSW,-29.4898,149.8471
 Narrabri,NSW,-30.3154,149.8302
 Tamworth Airport,NSW,-31.0742,150.8362
 Walgett,NSW,-30.0372,148.1223
-Murrurundi Gap,NSW,-31.7416,150.7937
 Brewon,NSW,-30.2411,147.5328
 Condobolin Airport,NSW,-33.0682,147.2133
 Coonabarabran Airport,NSW,-31.3330,149.2699
@@ -553,7 +551,6 @@ Wave Hill (Kalkarindji),NT,-17.3869,131.1166
 Dum In Mirrie,NT,-12.6350,130.3725
 Tennant Creek,NT,-19.6423,134.1833
 Alice Springs Airport,NT,-23.7951,133.8890
-Curtin Springs,NT,-25.3139,131.7571
 Jervois,NT,-22.9494,136.1442
 Wulungurru (Kintore),NT,-23.2656,129.3844
 Kulgera,NT,-25.8428,133.3027

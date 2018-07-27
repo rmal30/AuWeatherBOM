@@ -51,6 +51,7 @@
         android:gravity="center"
         >
     <ImageView
+        android:id="@+id/raindrop"
         android:layout_width="15dp"
         android:layout_height="match_parent"
         android:src="@drawable/ic_raindrop" />

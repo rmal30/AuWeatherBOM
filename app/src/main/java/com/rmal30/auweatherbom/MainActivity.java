@@ -6,6 +6,9 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -144,27 +147,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Forecast object
-    public class Forecast{
+    private class Forecast{
         String day, max,min,rainProbability, description, rainRange;
         int forecastIcon;
-        public Forecast(){
+        private Forecast(){
 
         }
     }
 
+    //Forecast object
+    private class Observation{
+        String currentTemp, apparentTemp, humidity, wind, rainfall, maxTemp, minTemp;
+        private Observation(){
+            this.currentTemp = "";
+            this.apparentTemp = "";
+            this.humidity = "";
+            this.wind = "";
+            this.rainfall = "";
+            this.maxTemp = "";
+            this.minTemp = "";
+        }
+    }
+
     //Adapter that loads the forecast view
-    public class ForecastAdapter extends BaseAdapter{
+    private class ForecastAdapter extends BaseAdapter{
         private Context ctx;
         private ArrayList<Forecast> forecasts;
 
-        public ForecastAdapter(Context ctx, ArrayList<Forecast> forecasts){
+        private ForecastAdapter(Context ctx, ArrayList<Forecast> forecasts){
             this.ctx = ctx;
             this.forecasts = forecasts;
         }
         public View getView(int i, View v, ViewGroup parent){
             if(v==null){
                 final LayoutInflater li = LayoutInflater.from(this.ctx);
-                v = li.inflate(R.layout.forecast_card, null);
+                v = li.inflate(R.layout.forecast_card, parent, false);
+
             }
             if(i>=forecasts.size()){
                 return v;
@@ -187,7 +205,10 @@ public class MainActivity extends AppCompatActivity {
                 default: weatherIcon = R.drawable.ic_partly_cloudy; break;
             }
 
+
+
             final ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
+
             if(Build.VERSION.SDK_INT<23) {
                 //noinspection deprecation
                 imageView.setImageDrawable(ctx.getResources().getDrawable(weatherIcon));
@@ -198,6 +219,26 @@ public class MainActivity extends AppCompatActivity {
             final TextView min = (TextView) v.findViewById(R.id.min);
             final TextView max = (TextView) v.findViewById(R.id.max);
             final TextView prob = (TextView) v.findViewById(R.id.rainprob);
+
+
+            TextView[] textElements = {day, min, max, prob};
+
+            if(Float.valueOf(currentTemp) < 0) {
+                v.setBackgroundResource(R.drawable.card_black);
+                for(TextView element: textElements) {
+                    element.setTextColor(Color.argb(200, 0, 0, 0));
+                }
+                imageView.setColorFilter(Color.argb(200, 0, 0, 0));
+                ((ImageView) v.findViewById(R.id.raindrop)).setColorFilter(Color.argb(200, 0, 0, 0));
+            }else{
+                v.setBackgroundResource(R.drawable.card);
+                for(TextView element: textElements) {
+                    element.setTextColor(Color.argb(200, 255,255,255));
+                }
+                imageView.setColorFilter(Color.argb(200, 255, 255, 255));
+                ((ImageView) v.findViewById(R.id.raindrop)).setColorFilter(Color.argb(200, 255, 255, 255));
+            }
+
             final LinearLayout probLayout = (LinearLayout) v.findViewById(R.id.rainlayout);
             day.setText(forecast.day);
             if(forecast.min==null){
@@ -225,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
             return this.forecasts.size();
         }
         public long getItemId(int position){
-            return 0;
+            return position;
         }
         public View getItem(int position){
             return null;
@@ -233,10 +274,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Pager adapter to switch between radar and weather
-    public class CustomPagerAdapter extends PagerAdapter{
+    private class CustomPagerAdapter extends PagerAdapter{
         private Context mContext;
 
-        public CustomPagerAdapter(Context context) {
+        private CustomPagerAdapter(Context context) {
             mContext = context;
         }
 
@@ -260,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == ((View) arg1);
+            return arg0 == arg1;
         }
 
         @Override
@@ -379,7 +420,7 @@ public class MainActivity extends AppCompatActivity {
                     Tree child = new Tree();
                     child.hasChildren = false;
                     if(node.children == null) {
-                        node.children = new ArrayList<Tree>();
+                        node.children = new ArrayList<>();
                     }
                     node.children.add(child);
                     stack.push(child);
@@ -469,7 +510,6 @@ public class MainActivity extends AppCompatActivity {
     boolean radarLoaded = false;
     Tree[] observations = {null, null, null, null, null, null, null};
     Tree[] forecastData = {null, null, null, null, null, null, null};
-    long now = System.currentTimeMillis();
     String[] lastUpdated = new String[7];
     String[] lastUpdated2 = new String[7];
     int zoomLevel = 2;
@@ -530,9 +570,9 @@ public class MainActivity extends AppCompatActivity {
             HashMap<String, String> stationData = new HashMap<>();
             String[] lines = s.split("\\n");
             String[] parts;
-            for (int i = 0; i < lines.length; i++) {
-                parts = lines[i].split(",");
-                stationData.put(parts[0]+","+parts[1],parts[2]+","+parts[3]);
+            for (String line:lines) {
+                parts = line.split(",");
+                stationData.put(parts[0]+","+parts[1], parts[2]+","+parts[3]);
             }
             bis = new BufferedInputStream(this.getAssets().open("forecastList.txt"));
             baos = new ByteArrayOutputStream();
@@ -705,8 +745,10 @@ public class MainActivity extends AppCompatActivity {
                         int stateID = 0;
                         String stationName;
                         radarData = radarList.get(radarPlace2).split(",");
-                        HashMap<String, Integer> colorTemp = new HashMap<>();
+                        HashMap<String, Float> colorTemp = new HashMap<>();
                         String stationPlace;
+                        Float temp;
+                        int color;
                         for(int i=0; i<states.length; i++) {
                             stationPlace = findNearestLocation(townList.get(place), stationList);
                             if(states[i].equals(stationPlace.split(", ")[1])){
@@ -721,7 +763,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 for (Tree m : info) {
                                     if (m.properties.get("type").equals("air_temperature")) {
-                                        colorTemp.put(stationName.split(",")[0], tempColor(Float.valueOf(m.value)));
+                                        colorTemp.put(stationName.split(",")[0], Float.valueOf(m.value));
                                     }
                                 }
                             }
@@ -731,13 +773,24 @@ public class MainActivity extends AppCompatActivity {
                             x = 261 + (int) Math.round(10000*0.9771*0.5*Math.cos(Float.valueOf(radarData[0])*Math.PI/180)*width*(Float.valueOf(stationData[1]) - Float.valueOf(radarData[1]))/(90*zoomRange[zoomLevel - 1]));
                             y = 261 - (int) Math.round(10000*0.9078*0.5*height*(Float.valueOf(stationData[0]) - Float.valueOf(radarData[0]))/(90*zoomRange[zoomLevel - 1]));
                             if(colorTemp.containsKey(station.split(", ")[0])) {
-                                if (x > 10 && y > 10 && x < 500 && y < 500) {
-                                    for (int i = -4; i < 5; i++) {
-                                        for (int j = -4; j < 5; j++) {
-                                            if (i * i + j * j < 16) {
-                                                bitmap.setPixel(x + i, y + j, colorTemp.get(station.split(", ")[0]));
-                                            }else if(i*i + j*j >= 16 && i*i + j*j <= 20) {
-                                                bitmap.setPixel(x + i, y + j, Color.WHITE);
+                                temp = colorTemp.get(station.split(", ")[0]);
+                                if(Math.round(temp) < 0){
+                                    color = Color.BLACK;
+                                }else{
+                                    color = Color.WHITE;
+                                }
+                                if (x > 10 && y > 15 && x < 500 && y < 490) {
+                                    for (int i = -6; i <= 6; i++) {
+                                        for (int j = -6; j <= 6; j++) {
+                                            if (i * i + j * j < 33) {
+
+                                                if(drawNumber(i, j, Math.round(temp))){
+                                                        bitmap.setPixel(x + i, y + j, color);
+                                                }else {
+                                                    bitmap.setPixel(x + i, y + j, tempColor(temp));
+                                                }
+                                            }else if(i*i + j*j >= 33 && i*i + j*j <= 41) {
+                                                bitmap.setPixel(x + i, y + j, color);
                                             }
                                         }
                                     }
@@ -774,6 +827,29 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.map_controls).setVisibility(View.GONE);
                     radarLoaded = true;
                 }});
+        }
+    }
+
+    public boolean drawNumber(int i, int j, int number){
+        short[] digits = {32319, 17394, 24253, 32437, 31879, 30391, 30399, 31777, 32447, 32439};
+        if(j > 2 || j < -2 || i > 3 || i < -3 || number <= -10) {
+            return false;
+        }else if(number < 0){
+            if(i < 0){
+                return 1 == ((4228 >> ((i+3)*5 + (j+2))) & 1);
+            }else if(i > 0){
+                return 1 == ((digits[-number] >> ((i-1)*5 + (j+2))) & 1);
+            }else{
+                return false;
+            }
+        }else if(number < 10){
+            return 1 == ((digits[number] >> ((i+1)*5 + (j+2))) & 1);
+        }else if(i < 0){
+            return 1 == ((digits[number/10] >> ((i+3)*5 + (j+2))) & 1);
+        }else if(i > 0){
+            return 1 == ((digits[number%10] >> ((i-1)*5 + (j+2))) & 1);
+        }else{
+            return false;
         }
     }
 
@@ -848,8 +924,8 @@ public class MainActivity extends AppCompatActivity {
             HashMap<String, String> list = new HashMap<>();
             String[] lines = s.split("\\n");
             String[] parts;
-            for (int i = 0; i < lines.length; i++) {
-                parts = lines[i].split(",");
+            for (String line:lines) {
+                parts = line.split(",");
                 if(columnCount==4) {
                     list.put(parts[0] + ", " + parts[1], parts[2] + "," + parts[3]);
                 }else if(columnCount==5){
@@ -916,7 +992,7 @@ public class MainActivity extends AppCompatActivity {
     public String getDateModified(String path, String filename){
         setupFTP();
         try {
-            return ftp.getModificationTime(new URL(fwoRoot + filename).getPath());
+            return ftp.getModificationTime(new URL(path + filename).getPath());
         }catch(Exception e){
             return null;
         }
@@ -963,6 +1039,54 @@ public class MainActivity extends AppCompatActivity {
         return nearestPlace;
     }
 
+    public Observation storeObservation(ArrayList<Tree> info){
+        String units;
+        Observation observation = new Observation();
+        for (Tree m : info) {
+            units = m.properties.get("units");
+            if (units == null) {
+                units = "";
+            }
+            switch (m.properties.get("type")) {
+                case "apparent_temp":
+                    observation.apparentTemp = "Feels like " + m.value + "°C";
+                    break;
+                case "air_temperature":
+                    observation.currentTemp = m.value;
+                    break;
+                case "rel-humidity":
+                    observation.humidity = m.value + units + " humidity\n";
+                    break;
+                case "wind_dir":
+                    observation.wind = "Wind: " + m.value + " " + units;
+                    break;
+                case "wind_spd_kmh":
+                    if (!m.value.equals("0")) {
+                        observation.wind += m.value + " " + units;
+                    }
+                    break;
+                case "rainfall":
+                    if (!m.value.equals("0.0")) {
+                        observation.rainfall = m.value + " " + units + " rain\n";
+                    }
+                    break;
+                case "maximum_air_temperature":
+                    observation.maxTemp = m.value;
+                    break;
+                case "minimum_air_temperature":
+                    observation.minTemp = m.value;
+                    break;
+            }
+            if (observation.minTemp == null) {
+                observation.minTemp = "--";
+            }
+            if (observation.maxTemp == null) {
+                observation.maxTemp = "--";
+            }
+        }
+        return observation;
+    }
+
     //Get weather data for a location
     public void getData(final String place){
         if(place==null){
@@ -980,7 +1104,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Invalid place chosen - Not in the town list index
         if(!townList.containsKey(place)){
-            if(toast!=null){toast.cancel();}
+            if(toast != null){toast.cancel();}
             toast = Toast.makeText(this, "Place chosen is invalid, please select another place", Toast.LENGTH_SHORT);
             toast.show();
             return;
@@ -1020,10 +1144,9 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new Thread() {
             public void run (){
                 String s;
-                int obsDist2=0, fDist2=0;
-                long now = System.currentTimeMillis();
+                int obsDist2=0, fDist2;
                 String issueTime = null;
-                String appTemp2 = "", temp2 = "", maxTemp2 = "", minTemp2 = "";
+                Observation observation = new Observation();
                 String title2 = "";
                 StringBuilder sb = new StringBuilder();
                 String lastModified;
@@ -1034,99 +1157,50 @@ public class MainActivity extends AppCompatActivity {
                     if(lastModified==null){
                         lastModified = lastUpdated[obsStateID2];
                     }
-                if ((observations[obsStateID2] == null || lastUpdated[obsStateID2] == null
-                        || !lastUpdated[obsStateID2].equals(lastModified))) {
-                    s = readText(fwoRoot, filename);
-                    if (s == null || s.isEmpty()) {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
+                    if ((observations[obsStateID2] == null || lastUpdated[obsStateID2] == null
+                            || !lastUpdated[obsStateID2].equals(lastModified))) {
+                        s = readText(fwoRoot, filename);
+                        if (s == null || s.isEmpty()) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
                                 Toast.makeText(MainActivity.this, "Cannot get weather data, please check if internet is enabled", Toast.LENGTH_SHORT).show();
                                 findViewById(R.id.progressBar).setVisibility(View.GONE);
                                 ((USwipeRefreshLayout) findViewById(R.id.refresh)).setRefreshing(false);
                                 findViewById(R.id.relative).setVisibility(View.VISIBLE);
-                            }
-                        });
-                        loaded = true;
-                        return;
+                                }
+                            });
+                            loaded = true;
+                            return;
+                        }
+                        observations[obsStateID2] = parseXML(s).children.get(1);
+                        lastUpdated[obsStateID2] = getDateModified(fwoRoot, filename);
                     }
-                    observations[obsStateID2] = parseXML(s).children.get(1);
-                    lastUpdated[obsStateID2] = getDateModified(fwoRoot, filename);
-                }
-                zoomLevel = 2;
-                loadRadar(currentPlace, true, 2);
-                String units;
-                String place2 = obsStation.split(", ")[0];
-                for (Tree station : observations[obsStateID2].children) {
-                    String stationName = station.properties.get("description");
-                    //boolean wordExists2 = stationName2.toUpperCase().contains(place2.split(" ")[0]);
-                    if (stationName.equals(place2)) {
-                        //Place found in weather data
-                        sb.delete(0, sb.length());
-                        title2 = stationName.split(",")[0];
-                        Tree data = station.children.get(0);
-                        String[] date = data.properties.get("time-local").split("T");
-                        String time = date[1].substring(0, 5);
-                        String[] day = date[0].split("-");
-                        issueTime = time + " " + day[2] + "/" + day[1] + "/" + day[0];
-                        ArrayList<Tree> info = data.children.get(0).children;
-                        appTemp2 = "";
-                        temp2 = "";
-                        maxTemp2 = "";
-                        minTemp2 = "";
-                        for (Tree m : info) {
-                            units = m.properties.get("units");
-                            if (units == null) {
-                                units = "";
-                            }
-                            String line = "";
-                            switch (m.properties.get("type")) {
-                                case "apparent_temp":
-                                    appTemp2 = "Feels like " + m.value + "°C";
-                                    break;
-                                case "air_temperature":
-                                    temp2 = m.value;
-                                    break;
-                                case "rel-humidity":
-                                    line = m.value + units + " humidity \n";
-                                    break;
-                                case "wind_dir":
-                                    line = "Wind: " + m.value + " " + units;
-                                    break;
-                                case "wind_spd_kmh":
-                                    if (!m.value.equals("0")) {
-                                        line = m.value + " " + units;
-                                    }
-                                    break;
-                                case "rainfall":
-                                    if (!m.value.equals("0.0")) {
-                                        line = "\n" + m.value + " " + units + " rain";
-                                    }
-                                    break;
-                                case "maximum_air_temperature":
-                                    maxTemp2 = m.value;
-                                    break;
-                                case "minimum_air_temperature":
-                                    minTemp2 = m.value;
-                                    break;
-                            }
-                            if (minTemp2.equals("")) {
-                                minTemp2 = "--";
-                            }
-                            if (maxTemp2.equals("")) {
-                                maxTemp2 = "--";
-                            }
-                            if (!line.equals("")) {
-                                sb.append(line);
-                            }
+                    zoomLevel = 2;
+                    loadRadar(currentPlace, true, 2);
+                    String place2 = obsStation.split(", ")[0];
+                    for (Tree station : observations[obsStateID2].children) {
+                        String stationName = station.properties.get("description");
+                        if (stationName.equals(place2)) {
+                            //Place found in weather data
+                            sb.delete(0, sb.length());
+                            title2 = stationName.split(",")[0];
+                            Tree data = station.children.get(0);
+                            String[] date = data.properties.get("time-local").split("T");
+                            String time = date[1].substring(0, 5);
+                            String[] day = date[0].split("-");
+                            issueTime = time + " " + day[2] + "/" + day[1] + "/" + day[0];
+                            observation = storeObservation(data.children.get(0).children);
+                            sb.append(observation.humidity);
+                            sb.append(observation.wind + "\n");
+                            sb.append(observation.rainfall);
                         }
                     }
+                    if (issueTime != null) {
+                        sb.append("Last update: ").append(issueTime);
+                    }
+                }else{
+                    title2 = "No observations nearby";
                 }
-                if (issueTime != null) {
-                    sb.append("\nLast update: " + issueTime);
-                }
-            }else{
-                title2 = "No observations nearby";
-            }
                 StringBuilder sb2 = new StringBuilder();
                 forecasts.clear();
             //Forecasts
@@ -1179,7 +1253,7 @@ public class MainActivity extends AppCompatActivity {
                             if(fDist2>5 && !areaName.equals(place.split(", ")[0])){
                                 strDist = " ("+fDist2+"km away)";
                             }
-                            sb2.append(areaName + " forecast"+strDist+":");
+                            sb2.append(areaName).append(" forecast").append(strDist).append(":");
                             j = 0;
                             for (Tree m : area.children) {
                                 Forecast forecast = new Forecast();
@@ -1188,7 +1262,7 @@ public class MainActivity extends AppCompatActivity {
                                     try {
                                         init.setTime(new SimpleDateFormat("hh:mm dd/MM/yyyy", Locale.ENGLISH).parse(issueTime));
                                     }catch(ParseException e){issueTime = null;}
-                                    }
+                                }
                                 init.add(Calendar.DATE, -j);
                                 boolean diffDates = c.get(Calendar.DAY_OF_MONTH) != init.get(Calendar.DAY_OF_MONTH);
                                 if (diffDates) {
@@ -1223,18 +1297,18 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                             break;
                                         case "air_temperature_minimum":
-                                            if ((temp2.isEmpty() || !minTemp2.equals("")) && diffDates) {
+                                            if ((observation.currentTemp.isEmpty() || !observation.minTemp.equals("")) && diffDates) {
                                                 forecast.min = k.value;
                                             } else if (issueTime != null && hour <7) {
-                                                minTemp2 = k.value;
+                                                observation.minTemp = k.value;
                                                 forecast.min = k.value;
                                             }
-
+                                            break;
                                         case "air_temperature_maximum":
-                                            if ((temp2.isEmpty() || !maxTemp2.equals("")) && diffDates) {
+                                            if ((observation.currentTemp.isEmpty() || !observation.maxTemp.equals("")) && diffDates) {
                                                 forecast.max = k.value;
-                                            } else if ( (temp2.isEmpty() || Double.parseDouble(temp2)<Double.parseDouble(k.value) || hour < 6)&& issueTime != null && hour < 15) {
-                                                maxTemp2 = k.value;
+                                            } else if ( (observation.currentTemp.isEmpty() || Double.parseDouble(observation.currentTemp)<Double.parseDouble(k.value) || hour < 6)&& issueTime != null && hour < 15) {
+                                                observation.maxTemp = k.value;
                                                 forecast.max = k.value;
                                             }
                                             break;
@@ -1255,7 +1329,7 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 sb2.append("No forecasts nearby");
             }
-                final String temp=temp2, maxTemp=maxTemp2, appTemp = appTemp2, minTemp=minTemp2, title = title2;
+                final String temp=observation.currentTemp, maxTemp=observation.maxTemp, appTemp = observation.apparentTemp, minTemp=observation.minTemp, title = title2;
                 final String s2 = sb.toString();
                 final String s3 = sb2.toString();
                 final int obsDist=obsDist2;
@@ -1283,14 +1357,28 @@ public class MainActivity extends AppCompatActivity {
                                 ((TextView) findViewById(R.id.maxTemp)).setText(String.format("Max: %s°C", maxTemp));
                                 gd[0] = new ColorDrawable(Color.TRANSPARENT);
                                 gd[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                                        new int[]{tempColor(Float.valueOf(temp) + 2f), tempColor(Float.valueOf(temp)), tempColor(Float.valueOf(temp) - 2f)});
+                                        new int[]{tempColor(Float.valueOf(temp) + 1f), tempColor(Float.valueOf(temp)), tempColor(Float.valueOf(temp) - 1f)});
                                 if (currentTemp != null) {
                                     gd[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                                            new int[]{tempColor(Float.valueOf(currentTemp) + 2f), tempColor(Float.valueOf(currentTemp)), tempColor(Float.valueOf(currentTemp) - 2f)});
+                                            new int[]{tempColor(Float.valueOf(currentTemp) + 1f), tempColor(Float.valueOf(currentTemp)), tempColor(Float.valueOf(currentTemp) - 1f)});
                                 }
                                 td = new TransitionDrawable(gd);
                                 td.startTransition(300);
                                 currentTemp = temp;
+
+                                int[] viewIds = {R.id.temp, R.id.title, R.id.minTemp, R.id.maxTemp, R.id.dist, R.id.appTemp, R.id.radarTitle, R.id.textView, R.id.forecast};
+                                ((ImageView)findViewById(R.id.zoom_in)).setColorFilter(Color.argb(200, 255, 255, 255));
+                                ((ImageView)findViewById(R.id.zoom_out)).setColorFilter(Color.argb(200, 255, 255, 255));
+                                for(int viewId:viewIds) {
+                                    ((TextView) findViewById(viewId)).setTextColor(Color.argb(200, 255, 255, 255));
+                                }
+                                if(Float.valueOf(temp) < 0) {
+                                    ((ImageView)findViewById(R.id.zoom_in)).setColorFilter(Color.argb(200, 0, 0, 0));
+                                    ((ImageView)findViewById(R.id.zoom_out)).setColorFilter(Color.argb(200, 0, 0, 0));
+                                    for(int viewId:viewIds) {
+                                        ((TextView) findViewById(viewId)).setTextColor(Color.BLACK);
+                                    }
+                                }
                             } else {
                                 findViewById(R.id.tempLayout).setVisibility(View.GONE);
                             }
@@ -1310,6 +1398,7 @@ public class MainActivity extends AppCompatActivity {
                                 findViewById(R.id.pager).setBackgroundDrawable(td);
                             } else {
                                 findViewById(R.id.pager).setBackground(td);
+
                             }
                         }else{
                             if (Build.VERSION.SDK_INT < 16) {
@@ -1347,24 +1436,23 @@ public class MainActivity extends AppCompatActivity {
     //Color code for temperature.
     int tempColor(float temp) {
         int color;
-        int silver = Color.rgb(150, 150,150);
+        int white = Color.rgb(255, 255, 255);
         int grey = Color.rgb(100, 100, 100);
-        int dgrey = Color.rgb(50, 50, 50);
-        int purple = Color.rgb(100, 0, 100);
-        int blue = Color.rgb(0, 50, 125);
-        int teal = Color.rgb(0, 125, 125);
-        int green = Color.rgb(50, 125, 50);
-        int yellow = Color.rgb(150, 150, 0);
+        int purple = Color.rgb(125, 0, 125);
+        int blue = Color.rgb(25, 75, 175);
+        int teal = Color.rgb(0, 150, 150);
+        int green = Color.rgb(50, 150, 50);
+        int yellow = Color.rgb(175, 175, 0);
         int orange = Color.rgb(200, 125, 0);
         int red = Color.rgb(250, 0, 0);
         int brown = Color.rgb(75, 25, 25);
         int black = Color.rgb(0, 0, 0);
-        int[] colorArray = {silver, grey, dgrey, purple, blue, teal, green, yellow, orange, red, brown, black};
-        if(temp<-10){
-            color = silver;
+        int[] colorArray = {white, grey, purple, blue, teal, green, yellow, orange, red, brown, black};
+        if(temp<-5){
+            color = white;
         }else if(temp<45) {
-            int i = (int) Math.floor((temp+10)/5);
-            color = interpolate(colorArray[i], colorArray[i+1], temp%5, 5);
+            int i = (int) Math.floor((temp+5)/5);
+            color = interpolate(colorArray[i], colorArray[i+1], (temp+100)%5, 5);
         }else{
             color = black;
         }
