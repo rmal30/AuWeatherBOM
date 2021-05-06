@@ -20,5 +20,6 @@
 
     <string name="action_example">Example action</string>
 
+    <string name="invalid_place">Place chosen is invalid, please select another place</string>
     <string name="action_settings">Settings</string>
 </resources>

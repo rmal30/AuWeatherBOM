@@ -5,7 +5,8 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.rmal30.auweatherbom"
-        minSdkVersion 9
+        minSdkVersion 11
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 25
         versionCode 20
         versionName "1.2.0"
@@ -20,6 +21,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'commons-net:commons-net:3.6'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'commons-net:commons-net:3.6'
 }

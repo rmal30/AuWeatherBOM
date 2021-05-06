@@ -30,7 +30,7 @@
 
         <view
             android:id="@+id/refresh"
-            class="com.rmal30.auweatherbom.MainActivity$USwipeRefreshLayout"
+            class="com.rmal30.auweatherbom.layouts.USwipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
