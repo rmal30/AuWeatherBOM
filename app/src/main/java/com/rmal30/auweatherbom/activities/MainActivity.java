@@ -52,7 +52,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Stack;
 
 import com.rmal30.auweatherbom.FTPReader;
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> favorites;
     ArrayList<Forecast> forecasts = new ArrayList<>();
     Stack<String> history = new Stack<>();
-    HashMap<String, String> townList, stationList, forecastList, radarList;
+    Map<String, String> townList, stationList, forecastList, radarList;
     String currentPlace, currentTemp;
     ArrayAdapter<String> listAdapter;
 
@@ -249,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                         if (observations[stateID] != null) {
                             for (Tree obsStation : observations[stateID].children) {
                                 stationName = obsStation.properties.get("description");
-                                ArrayList<Tree> info = obsStation.children.get(0).children.get(0).children;
+                                List<Tree> info = obsStation.children.get(0).children.get(0).children;
 
                                 for (Tree m : info) {
                                     if (m.properties.get("type").equals("air_temperature")) {
@@ -322,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
         }
         findViewById(R.id.mapProgress).setVisibility(View.VISIBLE);
         Thread t = new Thread() {
+            @Override
             public void run() {
                 loadRadar(currentPlace, false, oldZoomLevel);
                 runOnUiThread(new Runnable() {
@@ -354,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Read index file and store information in a dictionary for easy access
-    public HashMap<String, String> getList(String filename, int columnCount) {
+    public Map<String, String> getList(String filename, int columnCount) {
         byte[] buffer = new byte[4096];
         try {
             BufferedInputStream inputStream = new BufferedInputStream(this.getAssets().open(filename));
@@ -364,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.write(buffer, 0, bytes);
             }
             String s = outputStream.toString();
-            HashMap<String, String> list = new HashMap<>();
+            Map<String, String> list = new HashMap<>();
             String[] lines = s.split("\\n");
             String[] parts;
             for (String line:lines) {
@@ -722,7 +725,7 @@ public class MainActivity extends AppCompatActivity {
                                 findViewById(R.id.tempLayout).setVisibility(View.GONE);
                             }
 
-                            if (!appTemp.isEmpty()) {
+                            if (appTemp != null && !appTemp.isEmpty()) {
                                 findViewById(R.id.appTemp).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.appTemp)).setText(String.format("%s", appTemp));
                             } else {
@@ -820,7 +823,7 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawer(v); //Bookmarks open, so close that
             return;
         }
-        if (history.size() > 0) {
+        if (!history.isEmpty()) {
             if (loaded) {
                 getData(history.pop()); //Go back if user pressed back when the weather was loaded
                 return;

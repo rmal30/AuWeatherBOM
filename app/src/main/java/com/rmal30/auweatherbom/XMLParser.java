@@ -4,6 +4,7 @@ import com.rmal30.auweatherbom.models.Tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public class XMLParser {
@@ -168,7 +169,7 @@ public class XMLParser {
     }
 
     //Print out the object data as xml, used to verify that xml is read properly
-    public String printXML(ArrayList<Tree> tree){
+    public String printXML(List<Tree> tree){
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for(Tree t:tree){

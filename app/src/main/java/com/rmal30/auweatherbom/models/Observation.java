@@ -1,6 +1,6 @@
 package com.rmal30.auweatherbom.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Observation{
     public String currentTemp, apparentTemp, humidity, wind, rainfall, maxTemp, minTemp;
@@ -14,7 +14,7 @@ public class Observation{
         this.minTemp = "";
     }
 
-    public Observation(ArrayList<Tree> info) {
+    public Observation(List<Tree> info) {
         String units;
         for (Tree m : info) {
             units = m.properties.get("units");

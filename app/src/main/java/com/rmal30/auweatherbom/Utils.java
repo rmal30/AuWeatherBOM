@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
     public static boolean drawNumber(int i, int j, int number){
@@ -58,7 +59,7 @@ public class Utils {
     }
 
     //Find the nearest location from a given position
-    public static String findNearestLocation(String position, HashMap<String, String> list) {
+    public static String findNearestLocation(String position, Map<String, String> list) {
         int minDist = 10000;
         int curDist;
         String nearestPlace=null;
