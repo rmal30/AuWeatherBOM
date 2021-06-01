@@ -14,49 +14,51 @@ public class Observation{
         this.minTemp = "";
     }
 
-    public Observation(List<Tree> info) {
+    public static Observation fromXML(List<XMLTree> info) {
+        Observation observation = new Observation();
         String units;
-        for (Tree m : info) {
-            units = m.properties.get("units");
+        for (XMLTree m : info) {
+            units = m.getAttributes().get("units");
             if (units == null) {
                 units = "";
             }
-            switch (m.properties.get("type")) {
+            switch (m.getAttributes().get("type")) {
                 case "apparent_temp":
-                    this.apparentTemp = "Feels like " + m.value + "°C";
+                    observation.apparentTemp = "Feels like " + m.getValue() + "°C";
                     break;
                 case "air_temperature":
-                    this.currentTemp = m.value;
+                    observation.currentTemp = m.getValue();
                     break;
                 case "rel-humidity":
-                    this.humidity = m.value + units + " humidity\n";
+                    observation.humidity = m.getValue() + units + " humidity\n";
                     break;
                 case "wind_dir":
-                    this.wind = "Wind: " + m.value + " " + units;
+                    observation.wind = "Wind: " + m.getValue() + " " + units;
                     break;
                 case "wind_spd_kmh":
-                    if (!m.value.equals("0")) {
-                        this.wind += m.value + " " + units;
+                    if (!m.getValue().equals("0")) {
+                        observation.wind += m.getValue() + " " + units;
                     }
                     break;
                 case "rainfall":
-                    if (!m.value.equals("0.0")) {
-                        this.rainfall = m.value + " " + units + " rain\n";
+                    if (!m.getValue().equals("0.0")) {
+                        observation.rainfall = m.getValue() + " " + units + " rain\n";
                     }
                     break;
                 case "maximum_air_temperature":
-                    this.maxTemp = m.value;
+                    observation.maxTemp = m.getValue();
                     break;
                 case "minimum_air_temperature":
-                    this.minTemp = m.value;
+                    observation.minTemp = m.getValue();
                     break;
             }
-            if (this.minTemp == null) {
-                this.minTemp = "--";
+            if (observation.minTemp == null) {
+                observation.minTemp = "--";
             }
-            if (this.maxTemp == null) {
-                this.maxTemp = "--";
+            if (observation.maxTemp == null) {
+                observation.maxTemp = "--";
             }
         }
+        return observation;
     }
 }

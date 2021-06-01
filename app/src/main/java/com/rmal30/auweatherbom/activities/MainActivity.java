@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +67,9 @@ import com.rmal30.auweatherbom.adapters.ForecastAdapter;
 import com.rmal30.auweatherbom.layouts.USwipeRefreshLayout;
 import com.rmal30.auweatherbom.models.Forecast;
 import com.rmal30.auweatherbom.models.Observation;
-import com.rmal30.auweatherbom.models.Tree;
+import com.rmal30.auweatherbom.models.XMLTree;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
     final String[] letters = {"N", "V", "Q", "W", "S", "T", "D"}; //Used by BOM
     boolean loaded = true;
     boolean radarLoaded = false;
-    Tree[] observations = {null, null, null, null, null, null, null};
-    Tree[] forecastData = {null, null, null, null, null, null, null};
+    XMLTree[] observations = {null, null, null, null, null, null, null};
+    XMLTree[] forecastData = {null, null, null, null, null, null, null};
     String[] lastUpdated = new String[7];
     String[] lastUpdated2 = new String[7];
     int zoomLevel = 2;
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     String currentPlace, currentTemp;
     ArrayAdapter<String> listAdapter;
 
-    FTPReader ftpReader = new FTPReader(root);
+    FTPReader ftpReader = new FTPReader(root, "anonymous", "auweather@example.com");
 
     //Startup
     @Override
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         townList = getList("townList.txt", 5);
         radarList = getList("radarList.txt", 5);
         places = townList.keySet().toArray(new String[0]);
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         String place = sp.getString("location", null); //Get back previous location visited
         String bookmarks = sp.getString("Bookmarks", ""); //Get weather bookmarks
@@ -138,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
             editor.remove("location");
             editor.apply();
         }
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -207,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (radarPlace != null) {
             String radarID = radarPlace.split(", ")[2];
-            String radarFileName = "IDR" + radarID + String.valueOf(zoomLevel) +".gif";
+            String radarFileName = "IDR" + radarID + zoomLevel +".gif";
             byte[] byteArray = ftpReader.readFile(radarRoot, radarFileName);
             while (invalidate && byteArray == null && radarList.size() > 0) {
                 radarList.remove(radarPlace);
@@ -217,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!ftpReader.isOpen()) {
                         return;
                     }
-                    radarFileName = "IDR" + radarID + String.valueOf(zoomLevel) + ".gif";
+                    radarFileName = String.format(Locale.ENGLISH, "IDR%s%d.gif", radarID, zoomLevel);
                     byteArray = ftpReader.readFile(radarRoot, radarFileName);
                 } else {
                     byteArray = null;
@@ -249,18 +254,18 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (observations[stateID] != null) {
-                            for (Tree obsStation : observations[stateID].children) {
-                                stationName = obsStation.properties.get("description");
-                                List<Tree> info = obsStation.children.get(0).children.get(0).children;
+                            for (XMLTree obsStation : observations[stateID].getChildren()) {
+                                stationName = obsStation.getAttributes().get("description");
+                                List<XMLTree> info = obsStation.getChildren().get(0).getChildren().get(0).getChildren();
 
-                                for (Tree m : info) {
-                                    if (m.properties.get("type").equals("air_temperature")) {
-                                        colorTemp.put(stationName.split(",")[0], Float.valueOf(m.value));
+                                for (XMLTree m : info) {
+                                    if (m.getAttributes().get("type").equals("air_temperature")) {
+                                        colorTemp.put(stationName.split(",")[0], Float.valueOf(m.getValue()));
                                     }
                                 }
                             }
                         }
-                        for(String station: stationList.keySet()) {
+                        for (String station: stationList.keySet()) {
                             stationData = stationList.get(station).split(",");
                             int[] stationCoordinates = Utils.getStationImageCoordinatesFromLocation(
                                     width, height, zoomRange[zoomLevel - 1], radarData, stationData);
@@ -270,17 +275,20 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         TextView radarText = (TextView) findViewById(R.id.radarTitle);
-                        String radarDescription = radarPlace2.split(",")[0] + " radar, " + String.valueOf(zoomRange[zoomLevel-1]) + "km:";
+                        String radarDescription = String.format(
+                            Locale.ENGLISH,
+                            "%s radar, %dkm:",
+                            radarPlace2.split(",")[0],
+                            zoomRange[zoomLevel-1]
+                        );
                         radarText.setText(radarDescription);
                         ImageView imageView = (ImageView) findViewById(R.id.radarImage);
                         imageView.setImageBitmap(bitmap);
                         imageView.setVisibility(View.VISIBLE);
                         findViewById(R.id.map_controls).setVisibility(View.VISIBLE);
                     } else if (invalidate) {
-                        TextView radarText = (TextView) findViewById(R.id.radarTitle);
-                        radarText.setText("Radar not available");
-                        ImageView imageView = (ImageView) findViewById(R.id.radarImage);
-                        imageView.setVisibility(View.GONE);
+                        ((TextView) findViewById(R.id.radarTitle)).setText("Radar not available");
+                        findViewById(R.id.radarImage).setVisibility(View.GONE);
                         findViewById(R.id.map_controls).setVisibility(View.GONE);
                     } else {
                         zoomLevel = oldZoomLevel;
@@ -293,10 +301,8 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView radarText = (TextView) findViewById(R.id.radarTitle);
-                    radarText.setText("No radars nearby");
-                    ImageView imageView = (ImageView) findViewById(R.id.radarImage);
-                    imageView.setVisibility(View.GONE);
+                    ((TextView) findViewById(R.id.radarTitle)).setText("No radars nearby");
+                    findViewById(R.id.radarImage).setVisibility(View.GONE);
                     findViewById(R.id.map_controls).setVisibility(View.GONE);
                     radarLoaded = true;
                 }});
@@ -370,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
             Map<String, String> list = new HashMap<>();
             String[] lines = s.split("\\n");
             String[] parts;
-            for (String line:lines) {
+            for (String line : lines) {
                 parts = line.split(",");
                 if (columnCount == 4) {
                     list.put(parts[0] + ", " + parts[1], parts[2] + "," + parts[3]);
@@ -381,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
             outputStream.close();
             inputStream.close();
             return list;
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -475,24 +481,28 @@ public class MainActivity extends AppCompatActivity {
                             loaded = true;
                             return;
                         }
-                        observations[obsStateID2] = XMLParser.parseXML(s).children.get(1);
+                        try {
+                            observations[obsStateID2] = XMLParser.parseXML(s).get(0).getChildren().get(1);
+                        } catch (XmlPullParserException | IOException e) {
+                            e.printStackTrace();
+                        }
                         lastUpdated[obsStateID2] = ftpReader.getDateModified(fwoRoot, filename);
                     }
                     zoomLevel = 2;
                     loadRadar(currentPlace, true, 2);
                     String place2 = obsStation.split(", ")[0];
-                    for (Tree station : observations[obsStateID2].children) {
-                        String stationName = station.properties.get("description");
+                    for (XMLTree station : observations[obsStateID2].getChildren()) {
+                        String stationName = station.getAttributes().get("description");
                         if (stationName.equals(place2)) {
                             //Place found in weather data
                             sb.delete(0, sb.length());
                             title2 = stationName.split(",")[0];
-                            Tree data = station.children.get(0);
-                            String[] date = data.properties.get("time-local").split("T");
+                            XMLTree data = station.getChildren().get(0);
+                            String[] date = data.getAttributes().get("time-local").split("T");
                             String time = date[1].substring(0, 5);
                             String[] day = date[0].split("-");
                             issueTime = time + " " + day[2] + "/" + day[1] + "/" + day[0];
-                            observation = new Observation(data.children.get(0).children);
+                            observation = Observation.fromXML(data.getChildren().get(0).getChildren());
                             sb.append(observation.humidity);
                             sb.append(observation.wind);
                             sb.append("\n");
@@ -528,13 +538,18 @@ public class MainActivity extends AppCompatActivity {
                         loaded = true;
                         return;
                     }
-                    forecastData[fStateID2] = XMLParser.parseXML(s);
+
+                    try {
+                        forecastData[fStateID2] = XMLParser.parseXML(s).get(0);
+                    } catch (XmlPullParserException | IOException e) {
+                        e.printStackTrace();
+                    }
                     lastUpdated2[fStateID2] = ftpReader.getDateModified(fwoRoot, filename2);
                 }
                 fDist2 = Utils.distance(townList.get(place), forecastList.get(forecastPlace));
                 String[] daysArray = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-                Tree forecastInfo = forecastData[fStateID2].children.get(1);
-                String time = forecastData[fStateID2].children.get(0).children.get(3).value;
+                XMLTree forecastInfo = forecastData[fStateID2].getChildren().get(1);
+                String time = forecastData[fStateID2].getChildren().get(0).getChildren().get(3).getValue();
                 Date date;
                 try {
                     date = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH).parse(time);
@@ -547,10 +562,10 @@ public class MainActivity extends AppCompatActivity {
 
                 int j;
 
-                for (Tree area : forecastInfo.children) {
-                    String areaName = area.properties.get("description");
+                for (XMLTree area : forecastInfo.getChildren()) {
+                    String areaName = area.getAttributes().get("description");
                     if (areaName.equals(forecastPlace.split(", ")[0])) {
-                        if (area.hasChildren) {
+                        if (area.getChildren() != null) {
                             forecasts.clear();
                             sb2.delete(0, sb2.length());
                             String strDist = "";
@@ -559,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             sb2.append(areaName).append(" forecast").append(strDist).append(":");
                             j = 0;
-                            for (Tree m : area.children) {
+                            for (XMLTree m : area.getChildren()) {
                                 Forecast forecast = new Forecast();
                                 Calendar init = Calendar.getInstance();
                                 if (issueTime != null) {
@@ -585,46 +600,46 @@ public class MainActivity extends AppCompatActivity {
                                     hour = Integer.parseInt(issueTime.split(":")[0]);
                                 }
                                 //Access properties
-                                for (Tree k : m.children) {
-                                    switch (k.properties.get("type")) {
+                                for (XMLTree k : m.getChildren()) {
+                                    switch (k.getAttributes().get("type")) {
                                         case "precis":
-                                            forecast.description = k.value;
+                                            forecast.description = k.getValue();
                                             break;
                                         case "precipitation_range":
-                                            if (!k.value.equals("0 mm")) {
-                                                forecast.rainRange = k.value + " rain";
+                                            if (!k.getValue().equals("0 mm")) {
+                                                forecast.rainRange = k.getValue() + " rain";
                                             }
                                             break;
                                         case "probability_of_precipitation":
-                                            if (!k.value.equals("0%")) {
-                                                forecast.rainProbability = k.value;
+                                            if (!k.getValue().equals("0%")) {
+                                                forecast.rainProbability = k.getValue();
                                             }
                                             break;
                                         case "air_temperature_minimum":
                                             if ((observation.currentTemp.isEmpty() || !observation.minTemp.equals("")) && diffDates) {
-                                                forecast.min = k.value;
+                                                forecast.min = k.getValue();
                                             } else if (issueTime != null && hour < 7) {
-                                                observation.minTemp = k.value;
-                                                forecast.min = k.value;
+                                                observation.minTemp = k.getValue();
+                                                forecast.min = k.getValue();
                                             }
                                             break;
                                         case "air_temperature_maximum":
                                             if ((observation.currentTemp.isEmpty() || !observation.maxTemp.equals("")) && diffDates) {
-                                                forecast.max = k.value;
+                                                forecast.max = k.getValue();
                                             } else if (
                                                     (
                                                         observation.currentTemp.isEmpty() ||
-                                                        Double.parseDouble(observation.currentTemp) < Double.parseDouble(k.value) ||
+                                                        Double.parseDouble(observation.currentTemp) < Double.parseDouble(k.getValue()) ||
                                                         hour < 6
                                                     ) && issueTime != null && hour < 15
                                             ) {
-                                                observation.maxTemp = k.value;
-                                                forecast.max = k.value;
+                                                observation.maxTemp = k.getValue();
+                                                forecast.max = k.getValue();
                                             }
                                             break;
                                         case "forecast_icon_code":
-                                            if (!k.value.equals("##")) {
-                                                forecast.forecastIcon = Integer.parseInt(k.value);
+                                            if (!k.getValue().equals("##")) {
+                                                forecast.forecastIcon = Integer.parseInt(k.getValue());
                                             }
                                     }
                                 }
@@ -710,14 +725,14 @@ public class MainActivity extends AppCompatActivity {
                                 int whiteColor = Color.argb(200, 255, 255, 255);
                                 ((ImageView)findViewById(R.id.zoom_in)).setColorFilter(whiteColor);
                                 ((ImageView)findViewById(R.id.zoom_out)).setColorFilter(whiteColor);
-                                for(int viewId:viewIds) {
+                                for(int viewId : viewIds) {
                                     ((TextView) findViewById(viewId)).setTextColor(whiteColor);
                                 }
                                 if (Float.parseFloat(temp) < 0) {
                                     int blackColor = Color.argb(200, 0, 0, 0);
                                     ((ImageView)findViewById(R.id.zoom_in)).setColorFilter(blackColor);
                                     ((ImageView)findViewById(R.id.zoom_out)).setColorFilter(blackColor);
-                                    for(int viewId:viewIds) {
+                                    for(int viewId : viewIds) {
                                         ((TextView) findViewById(viewId)).setTextColor(Color.BLACK);
                                     }
                                 }
